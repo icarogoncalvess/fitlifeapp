@@ -30,7 +30,7 @@
         .btn-primary { background: linear-gradient(135deg, var(--primary), #00A87D); color: var(--dark); }
         .btn-secondary { background: var(--secondary); color: var(--text); border: 2px solid var(--primary); }
         .btn:hover { transform: scale(1.02); }
-        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--secondary); display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); z-index: 100; }
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--secondary); display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); z-index: 100; display: none; }
         .nav-item { color: var(--text); text-align: center; font-size: 0.75rem; opacity: 0.6; transition: 0.3s; cursor: pointer; text-decoration: none; }
         .nav-item.active { color: var(--primary); opacity: 1; }
         .nav-item i { font-size: 1.3rem; display: block; margin-bottom: 3px; }
@@ -225,9 +225,10 @@
         </button>
     </div>
 
-    <!-- TELA 7: CONQUISTAS -->
-    <div id="conquistas-screen" class="screen">
-        <header><h1>🏆 Minhas Conquistas</h1></header>
-        <div id="lista-conquistas"></div>
-        <div class="points-display" style="margin-top: 20px;">
-            <div class
+    <!-- TELA 7: PESO -->
+    <div id="peso-screen" class="screen">
+        <header><h1>⚖️ Registrar Peso</h1></header>
+        <div class="card">
+            <h3>Seu Peso Hoje</h3>
+            <input type="number" id="novo-peso" placeholder="Peso em kg">
+            <button class="btn btn-primary" onclick="salvarPeso()">Salvar</button>
