@@ -1,234 +1,164 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife Personal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #00D09C;
-            --secondary: #1A1A2E;
-            --accent: #FF6B6B;
-            --dark: #16213E;
-            --card-bg: #0F3460;
-            --text: #EAEAEA;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--dark); color: var(--text); min-height: 100vh; padding-bottom: 80px; }
-        .screen { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
-        .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        header { background: linear-gradient(135deg, var(--secondary), var(--card-bg)); padding: 20px; text-align: center; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; }
-        header h1 { font-size: 1.3rem; color: var(--primary); }
-        .card { background: var(--card-bg); border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .card h3 { color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 2px solid var(--secondary); background: var(--secondary); color: var(--text); font-size: 1rem; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; }
-        .btn-primary { background: linear-gradient(135deg, var(--primary), #00A87D); color: var(--dark); }
-        .btn-secondary { background: var(--secondary); color: var(--text); border: 2px solid var(--primary); }
-        .btn:hover { transform: scale(1.02); }
-        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--secondary); display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); z-index: 100; display: none; }
-        .nav-item { color: var(--text); text-align: center; font-size: 0.75rem; opacity: 0.6; transition: 0.3s; cursor: pointer; text-decoration: none; }
-        .nav-item.active { color: var(--primary); opacity: 1; }
-        .nav-item i { font-size: 1.3rem; display: block; margin-bottom: 3px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
-        .stat-box { background: var(--secondary); padding: 15px; border-radius: 10px; text-align: center; }
-        .stat-box .number { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
-        .stat-box .label { font-size: 0.75rem; opacity: 0.8; }
-        .progress-container { background: var(--secondary); border-radius: 10px; height: 20px; overflow: hidden; margin: 10px 0; }
-        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; transition: width 0.5s ease; }
-        .achievement { display: flex; align-items: center; gap: 15px; padding: 12px; background: var(--secondary); border-radius: 10px; margin-bottom: 10px; opacity: 0.5; }
-        .achievement.unlocked { opacity: 1; border: 1px solid var(--primary); }
-        .achievement i { font-size: 1.5rem; color: var(--primary); }
-        .checklist-item { display: flex; align-items: center; gap: 10px; padding: 12px; background: var(--secondary); border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
-        .checklist-item.checked { opacity: 0.5; text-decoration: line-through; }
-        .checkbox { width: 25px; height: 25px; border: 2px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .checkbox.checked { background: var(--primary); color: var(--dark); }
-        .chart-container { height: 150px; display: flex; align-items: flex-end; gap: 8px; padding: 10px 0; }
-        .chart-bar { flex: 1; background: linear-gradient(to top, var(--primary), var(--accent)); border-radius: 5px 5px 0 0; min-height: 5px; transition: height 0.3s ease; position: relative; }
-        .chart-bar::after { content: attr(data-weight); position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.65rem; color: var(--primary); }
-        .points-display { background: linear-gradient(135deg, var(--accent), #FF8E53); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
-        .points-display .points { font-size: 2.5rem; font-weight: bold; }
-        .points-display .label { font-size: 0.9rem; }
-        .notification { position: fixed; top: 20px; right: 20px; background: var(--primary); color: var(--dark); padding: 15px 25px; border-radius: 10px; font-weight: bold; transform: translateX(200%); transition: transform 0.3s ease; z-index: 200; }
-        .notification.show { transform: translateX(0); }
-        #welcome-screen { text-align: center; padding-top: 50px; }
-        .logo { font-size: 4rem; margin-bottom: 20px; }
-        .welcome-text { font-size: 1.1rem; margin-bottom: 30px; opacity: 0.8; }
-        .timer-display { text-align: center; font-size: 2.5rem; font-weight: bold; color: var(--primary); margin: 20px 0; }
-        .compra-item { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--secondary); border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
-        .compra-item.comprado { opacity: 0.5; text-decoration: line-through; }
-        .treino-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--secondary); border-radius: 10px; margin-bottom: 10px; }
-        .treino-item .exercicio { font-weight: 600; }
-        .treino-item .series { color: var(--accent); font-size: 0.9rem; }
-        .btn-small { padding: 8px 15px; font-size: 0.8rem; margin: 0; }
-        .refeicao-card { background: var(--secondary); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-        .refeicao-card h4 { color: var(--primary); margin-bottom: 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitLife Personal</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--p:#00D09C;--s:#1A1A2E;--a:#FF6B6B;--d:#16213E;--c:#0F3460;--t:#EAEAEA}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:var(--d);color:var(--t);min-height:100vh;padding-bottom:70px}
+.screen{display:none;padding:20px}.screen.active{display:block}
+header{background:linear-gradient(135deg,var(--s),var(--c));padding:15px;text-align:center;border-bottom:3px solid var(--p);position:sticky;top:0;z-index:100}
+header h1{font-size:1.2rem;color:var(--p)}
+.card{background:var(--c);border-radius:15px;padding:15px;margin-bottom:15px}
+.card h3{color:var(--p);margin-bottom:10px}
+input,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:2px solid var(--s);background:var(--s);color:var(--t)}
+.btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px}
+.btn-primary{background:var(--p);color:var(--d)}
+.btn-sec{background:var(--s);color:var(--t);border:2px solid var(--p)}
+.nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--s);justify-content:space-around;padding:12px;z-index:100}
+.nav a{color:var(--t);text-align:center;font-size:0.7rem;opacity:0.6;text-decoration:none}
+.nav a.active{color:var(--p);opacity:1}
+.nav i{display:block;font-size:1.2rem;margin-bottom:2px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{background:var(--s);padding:10px;border-radius:8px;text-align:center}
+.stat .n{font-size:1.3rem;font-weight:bold;color:var(--p)}
+.stat .l{font-size:0.7rem;opacity:0.8}
+.pts{background:linear-gradient(135deg,var(--a),#FF8E53);padding:15px;border-radius:12px;text-align:center;margin-bottom:15px}
+.pts .n{font-size:2rem;font-weight:bold}
+.notif{position:fixed;top:15px;right:15px;background:var(--p);color:var(--d);padding:12px 20px;border-radius:8px;font-weight:bold;transform:translateX(200%);z-index:200}
+.notif.show{transform:translateX(0)}
+#welcome{text-align:center;padding-top:40px}
+.logo{font-size:3.5rem}
+h1{color:var(--p);margin-bottom:8px}
+</style>
 </head>
 <body>
 
-    <!-- Notificação -->
-    <div class="notification" id="notification">🎉 Conquista!</div>
+<div class="notif" id="notif">🎉 Conquista!</div>
 
-    <!-- TELA 1: BOAS VINDAS -->
-    <div id="welcome-screen" class="screen active">
-        <div class="logo">💪</div>
-        <h1 style="color: var(--primary); font-size: 2.2rem; margin-bottom: 10px;">FitLife</h1>
-        <p class="welcome-text">Seu personal trainer<br>e nutritionist personalizado!</p>
-        <div style="padding: 20px;">
-            <button class="btn btn-primary" onclick="showScreen('register-screen')">
-                Começar Agora <i class="fas fa-arrow-right"></i>
-            </button>
-            <button class="btn btn-secondary" onclick="carregarDadosExistentes()" style="margin-top: 10px;">
-                Já tenho conta
-            </button>
-        </div>
-    </div>
+<!-- TELA BOAS VINDAS -->
+<div id="welcome" class="screen active">
+<div class="logo">💪</div>
+<h1>FitLife</h1>
+<p style="opacity:0.8;margin-bottom:20px">Seu personal trainer<br>personalizado!</p>
+<button class="btn btn-primary" onclick="show('reg')">Começar</button>
+<button class="btn btn-sec" onclick="load()" style="margin-top:8px">Já tenho conta</button>
+</div>
 
-    <!-- TELA 2: CADASTRO -->
-    <div id="register-screen" class="screen">
-        <header><h1>Crie seu Perfil</h1></header>
-        <div class="card">
-            <h3><i class="fas fa-user"></i> Dados Pessoais</h3>
-            <input type="text" id="nome" placeholder="Seu nome">
-            <input type="number" id="idade" placeholder="Idade">
-            <input type="number" id="peso" placeholder="Peso (kg)">
-            <input type="number" id="altura" placeholder="Altura (cm)">
-            <select id="sexo">
-                <option value="">Selecione o sexo</option>
-                <option value="m">Masculino</option>
-                <option value="f">Feminino</option>
-            </select>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-bullseye"></i> Objetivo</h3>
-            <select id="objetivo">
-                <option value="perder">🔥 Emagrecer</option>
-                <option value="manter">⚖️ Manter</option>
-                <option value="ganhar">💪 Ganhar Massa</option>
-            </select>
-            <select id="atividade">
-                <option value="sedentario">Sedentário</option>
-                <option value="leve">Leve (1-3x semana)</option>
-                <option value="moderado">Moderado (3-5x semana)</option>
-                <option value="ativo">Ativo (6-7x semana)</option>
-            </select>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-utensils"></i> Preferências</h3>
-            <select id="estilo-dieta">
-                <option value="normal">🍽️ Normal</option>
-                <option value="lowcarb">🥑 Low Carb</option>
-                <option value="vegana">🥦 Vegana</option>
-            </select>
-            <select id="local-treino">
-                <option value="casa">🏠 Casa</option>
-                <option value="academia">🏋️ Academia</option>
-            </select>
-        </div>
-        <button class="btn btn-primary" onclick="criarPerfil()">Criar Meu Plano</button>
-    </div>
+<!-- TELA CADASTRO -->
+<div id="reg" class="screen">
+<header><h1>Criar Perfil</h1></header>
+<div class="card">
+<h3>📝 Dados</h3>
+<input id="nome" placeholder="Nome">
+<input id="idade" type="number" placeholder="Idade">
+<input id="peso" type="number" placeholder="Peso (kg)">
+<input id="altura" type="number" placeholder="Altura (cm)">
+<select id="sexo"><option value="">Sexo</option><option value="m">Masculino</option><option value="f">Feminino</option></select>
+</div>
+<div class="card">
+<h3>🎯 Objetivo</h3>
+<select id="obj"><option value="perder">Emagrecer</option><option value="manter">Manter</option><option value="ganhar">Ganhar Massa</option></select>
+<select id="ativ"><option value="1.2">Sedentário</option><option value="1.375">Leve</option><option value="1.55">Moderado</option><option value="1.725">Ativo</option></select>
+</div>
+<div class="card">
+<h3>🍽️ Preferências</h3>
+<select id="dieta"><option value="normal">Normal</option><option value="lowcarb">Low Carb</option><option value="vegana">Vegana</option></select>
+<select id="treino"><option value="casa">Casa</option><option value="academia">Academia</option></select>
+</div>
+<button class="btn btn-primary" onclick="criar()">Criar Plano</button>
+</div>
 
-    <!-- TELA 3: HOME -->
-    <div id="home-screen" class="screen">
-        <header><h1>FitLife <span id="nome-usuario"></span></h1></header>
-        <div class="points-display">
-            <div class="label">Seus Pontos</div>
-            <div class="points" id="pontos-tela">0</div>
-            <div class="label" id="streak-dias">🔥 0 dias</div>
-        </div>
-        <div class="stats-grid">
-            <div class="stat-box">
-                <div class="number" id="meta-calorias">0</div>
-                <div class="label">Kcal/Dia</div>
-            </div>
-            <div class="stat-box">
-                <div class="number" id="peso-atual">0</div>
-                <div class="label">kg</div>
-            </div>
-            <div class="stat-box">
-                <div class="number" id="dias-registrados">0</div>
-                <div class="label">Dias</div>
-            </div>
-            <div class="stat-box">
-                <div class="number" id="conquistas-qtd">0</div>
-                <div class="label">Troféus</div>
-            </div>
-        </div>
-        <div class="card">
-            <h3>📊 Evolução do Peso</h3>
-            <div class="chart-container" id="grafico-peso">
-                <div style="text-align:center; width:100%; opacity:0.5;">Sem dados ainda</div>
-            </div>
-            <button class="btn btn-secondary btn-small" onclick="showScreen('peso-screen')" style="margin-top: 10px;">
-                <i class="fas fa-plus"></i> Registrar Peso
-            </button>
-        </div>
-        <div class="card">
-            <h3>🎯 Desafio do Dia</h3>
-            <p id="desafio-do-dia" style="margin-bottom: 15px;">Carregando...</p>
-            <button class="btn btn-secondary" onclick="completarDesafio()">Marcar como Concluído</button>
-        </div>
-    </div>
+<!-- HOME -->
+<div id="home" class="screen">
+<header><h1>FitLife <span id="userName"></span></h1></header>
+<div class="pts">
+<div>Seus Pontos</div>
+<div class="n" id="pontos">0</div>
+<div id="streak">🔥 0 dias</div>
+</div>
+<div class="stats">
+<div class="stat"><div class="n" id="kcal">0</div><div class="l">Kcal/Dia</div></div>
+<div class="stat"><div class="n" id="pesoA">0</div><div class="l">kg</div></div>
+<div class="stat"><div class="n" id="dias">0</div><div class="l">Dias</div></div>
+<div class="stat"><div class="n" id="conq">0</div><div class="l">Troféus</div></div>
+</div>
+<div class="card">
+<h3>⚖️ Peso</h3>
+<input id="novoPeso" placeholder="Peso hoje (kg)">
+<button class="btn btn-sec" onclick="salvarPeso()">Registrar</button>
+<div id="grafico" style="height:60px;display:flex;align-items:flex-end;gap:3px;margin-top:10px"></div>
+</div>
+<div class="card">
+<h3>🎯 Desafio</h3>
+<p id="desafio" style="margin-bottom:10px">Carregando...</p>
+<button class="btn btn-sec" onclick="fazerDesafio()">Concluir (+30pts)</button>
+</div>
+</div>
 
-    <!-- TELA 4: TREINO -->
-    <div id="treino-screen" class="screen">
-        <header><h1>💪 Treino de Hoje</h1></header>
-        <div class="card">
-            <h3><i class="fas fa-dumbbell"></i> <span id="treino-local">Casa</span></h3>
-            <p style="margin-bottom: 15px; opacity: 0.8;">Duração: 45-60 min</p>
-            <div id="exercicios-lista"></div>
-        </div>
-        <div class="card">
-            <h3>⏱️ Cronômetro</h3>
-            <div class="timer-display" id="timer">00:00</div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-secondary" onclick="iniciarTimer()"><i class="fas fa-play"></i> Iniciar</button>
-                <button class="btn btn-secondary" onclick="pararTimer()"><i class="fas fa-stop"></i> Parar</button>
-            </div>
-        </div>
-        <button class="btn btn-primary" onclick="finalizarTreino()">✅ Finalizar Treino (+50 pts)</button>
-    </div>
+<!-- TREINO -->
+<div id="treino" class="screen">
+<header><h1>💪 Treino</h1></header>
+<div class="card">
+<h3 id="localTreino">Casa</h3>
+<div id="exercicios"></div>
+</div>
+<button class="btn btn-primary" onclick="finalizarTreino()">Finalizar (+50pts)</button>
+</div>
 
-    <!-- TELA 5: DIETA -->
-    <div id="dieta-screen" class="screen">
-        <header><h1>🥗 Plano Alimentar</h1></header>
-        <div class="card">
-            <h3>Meta Diária: <span id="meta-calorias-dieta">0</span> kcal</h3>
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="number" id="proteina-meta">0g</div>
-                    <div class="label">Proteína</div>
-                </div>
-                <div class="stat-box">
-                    <div class="number" id="carbs-meta">0g</div>
-                    <div class="label">Carbos</div>
-                </div>
-            </div>
-        </div>
-        <div id="refeicoes-lista"></div>
-    </div>
+<!-- DIETA -->
+<div id="dieta" class="screen">
+<header><h1>🥗 Dieta</h1></header>
+<div class="card">
+<h3>Meta: <span id="kcalDieta">0</span> kcal</h3>
+<div class="stats">
+<div class="stat"><div class="n" id="prot">0g</div><div class="l">Proteína</div></div>
+<div class="stat"><div class="n" id="carb">0g</div><div class="l">Carbos</div></div>
+</div>
+</div>
+<div id="refeicoes"></div>
+</div>
 
-    <!-- TELA 6: LISTA DE COMPRAS -->
-    <div id="compras-screen" class="screen">
-        <header><h1>🛒 Lista de Compras</h1></header>
-        <div class="card">
-            <h3>Semana</h3>
-            <div id="lista-compras"></div>
-        </div>
-        <button class="btn btn-secondary" onclick="gerarListaCompras()">
-            <i class="fas fa-sync"></i> Atualizar Lista
-        </button>
-    </div>
+<!-- COMPRAS -->
+<div id="compras" class="screen">
+<header><h1>🛒 Compras</h1></header>
+<div class="card"><div id="lista"></div></div>
+</div>
 
-    <!-- TELA 7: PESO -->
-    <div id="peso-screen" class="screen">
-        <header><h1>⚖️ Registrar Peso</h1></header>
-        <div class="card">
-            <h3>Seu Peso Hoje</h3>
-            <input type="number" id="novo-peso" placeholder="Peso em kg">
-            <button class="btn btn-primary" onclick="salvarPeso()">Salvar</button>
+<!-- NAV -->
+<nav class="nav" id="nav">
+<a onclick="show('home')"><i class="fas fa-home"></i>Home</a>
+<a onclick="show('treino')"><i class="fas fa-dumbbell"></i>Treino</a>
+<a onclick="show('dieta')"><i class="fas fa-utensils"></i>Dieta</a>
+<a onclick="show('compras')"><i class="fas fa-shopping-cart"></i>Compras</a>
+</nav>
+
+<script>
+let data={nome:'',pts:0,streak:0,peso:[],conq:[],desafioFeito:false};
+
+const des=['Beba 2L água','Não coma açúcar','Exercício 30min','Coma vegetais','Durma 8h','5 refeições'];
+const excCasa=[['Agachamentos','3x15'],['Flexões','3x10'],['Prancha','3x30s'],['Burpees','3x10']];
+const excAcademia=[['Supino','4x10'],['Leg Press','4x12'],['Puxada','4x10'],['Rosca','3x12']];
+const diets={normal:[['Café','Pão + ovo'],['Almoço','Arroz + feijão + frango'],['Jantar','Batata + carne']],lowcarb:[['Café','Ovos + bacon'],['Almoço','Frango + brócolis'],['Jantar','Salada + atum']],vegana:[['Café','Aveia + frutas'],['Almoço','Arroz + lentilha'],['Jantar','Sopa']]};
+const buys={normal:['Arroz','Feijão','Frango','Ovos','Alface','Pão'],lowcarb:['Frango','Carne','Ovos','Abacate','Brócolis','Queijo'],vegana:['Arroz','Lentilha','Banana','Maçã','Aveia']};
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.getElementById('nav').style.display=id==='welcome'||id==='reg'?'none':'flex';if(id!=='welcome'&&id!=='reg')atualizar(id)}
+function notif(msg){const n=document.getElementById('notif');n.textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2000)}
+function criar(){const nome=document.getElementById('nome').value;const peso=parseFloat(document.getElementById('peso').value);const alt=parseFloat(document.getElementById('altura').value);const idade=parseInt(document.getElementById('idade').value);const sexo=document.getElementById('sexo').value;const obj=document.getElementById('obj').value;const atv=parseFloat(document.getElementById('ativ').value);const dieta=document.getElementById('dieta').value;const tre=document.getElementById('treino').value;if(!nome||!peso){alert('Preencha nome e peso!');return}let tmb=sexo==='m'?(10*peso)+(6.25*alt)-(5*idade)+5:(10*peso)+(6.25*alt)-(5*idade)-161;let cal=obj==='perder'?tmb*atv-500:obj==='ganhar'?tmb*atv+300:tmb*atv;data={nome,peso,cal,dieta,tre,pts:0,streak:0,peso:[peso],conq:[],desafioFeito:false,obj};localStorage.setItem('fitlife',JSON.stringify(data));document.getElementById('userName').innerText=nome;show('home');gerarDesafio();gerarTreino();gerarDieta();gerarCompras()}
+function load(){const d=localStorage.getItem('fitlife');if(d){data=JSON.parse(d);document.getElementById('userName').innerText=data.nome;show('home');gerarDesafio();gerarTreino();gerarDieta();gerarCompras()}else{alert('Nenhum dado encontrado!')}}
+function salvarPeso(){const p=parseFloat(document.getElementById('novoPeso').value);if(p){data.peso.push(p);data.pts+=10;localStorage.setItem('fitlife',JSON.stringify(data));atualizar('home');notif('+10 pts!');verConq()}}
+function gerarDesafio(){document.getElementById('desafio').innerText=des[Math.floor(Math.random()*des.length)]}
+function fazerDesafio(){if(!data.desafioFeito){data.pts+=30;data.desafioFeito=true;localStorage.setItem('fitlife',JSON.stringify(data));atualizar('home');notif('+30 pts!');verConq();gerarDesafio()}}
+function gerarTreino(){const ex=data.tre==='casa'?excCasa:excAcademia;document.getElementById('localTreino').innerText=data.tre==='casa'?'🏠 Casa':'🏋️ Academia';document.getElementById('exercicios').innerHTML=ex.map(e=>`<div style="background:var(--s);padding:10px;margin:5px 0;border-radius:8px;display:flex;justify-content:space-between"><span>${e[0]}</span><span style="color:var(--a)">${e[1]}</span></div>`).join('')}
+function gerarDieta(){document.getElementById('kcalDieta').innerText=data.cal;document.getElementById('prot').innerText=Math.round(data.peso[0]*2)+'g';document.getElementById('carb').innerText=Math.round((data.cal*0.5)/4)+'g';const r=diets[data.dieta];document.getElementById('refeicoes').innerHTML=r.map(x=>`<div class="card"><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join('')}
+function gerarCompras(){document.getElementById('lista').innerHTML=buys[data.dieta].map(i=>`<div style="background:var(--s);padding:10px;margin:5px 0;border-radius:8px">☐ ${i}</div>`).join('')}
+function finalizarTreino(){data.pts+=50;localStorage.setItem('fitlife',JSON.stringify(data));atualizar('home');notif('+50 pts! 💪');verConq()}
+function verConq(){const c=data.conq;if(data.pts>=100&&!c.includes('iniciante')){c.push('iniciante');notif('🌟 Conquista: Iniciante!')}if(data.peso.length>=3&&!c.includes('persistente')){c.push('persistente');notif('🔥 Conquista: Persistente!')}localStorage.setItem('fitlife',JSON.stringify(data))}
+function atualizar(){document.getElementById('pontos').innerText=data.pts;document.getElementById('kcal').innerText=data.cal;document.getElementById('pesoA').innerText=data.peso[data.peso.length-1];document.getElementById('dias').innerText=data.peso.length;document.getElementById('conq').innerText=data.conq.length;document.getElementById('streak').innerText='🔥 '+data.streak+' dias';if(data.peso.length>1){const max=Math.max(...data.peso),min=Math.min(...data.peso),h=Math.max(...data.peso.map(p=>100-((p-min)/(max-min))*80));document.getElementById('grafico').innerHTML=data.peso.map(p=>`<div style="flex:1;background:linear-gradient(to top,var(--p),var(--a));border-radius:3px;height:${h}px;min-height:5px" title="${p}kg"></div>`).join('')}}
+</script>
+</body>
+</html>
