@@ -3,15 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style><!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife Pro - Versão Completa</title>
+    <title>FitLife Pro - Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -25,17 +17,18 @@
         .card h3{color:var(--p);margin-bottom:10px;font-size: 1.1rem; display: flex; align-items: center; gap: 8px}
         .item-row{display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center}
         .qtd{color: var(--a); font-weight: bold; text-align: right}
-        .medida-alt{display: block; font-size: 0.75rem; color: #888; font-weight: normal}
-        .btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px}
+        .medida-alt{display: block; font-size: 0.75rem; color: #888; font-weight: normal; margin-top: 2px}
+        .btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px;transition: 0.2s}
         .btn-primary{background:var(--p);color:var(--d)}
+        .btn-sec{background:var(--s);color:var(--t);border:1px solid var(--p)}
         input, select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:none;background:var(--s);color:var(--t)}
         .nav{position:fixed;bottom:0;left:0;right:0;background:var(--s);display:flex;justify-content:space-around;padding:12px;z-index:100;border-top: 1px solid var(--c)}
         .nav a{color:var(--t);text-align:center;font-size:0.7rem;text-decoration:none;opacity: 0.6; cursor: pointer}
         .nav a.active{color:var(--p);opacity: 1}
         .nav i{display:block;font-size:1.2rem;margin-bottom:3px}
-        table{width: 100%; border-collapse: collapse; font-size: 0.8rem}
-        th{text-align: left; color: var(--p); padding-bottom: 8px}
-        td{padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05)}
+        table{width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 10px}
+        th{text-align: left; color: var(--p); padding-bottom: 8px; border-bottom: 2px solid var(--s)}
+        td{padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05)}
         #chart{display: flex; align-items: flex-end; gap: 4px; height: 100px; margin-top: 15px; background: #0b1426; padding: 5px; border-radius: 8px}
         .bar{flex: 1; background: var(--p); border-radius: 2px 2px 0 0; position: relative}
     </style>
@@ -45,23 +38,24 @@
 <div id="reg" class="screen active">
     <header><h1>Configurar Perfil</h1></header>
     <div class="card">
+        <h3><i class="fas fa-user-edit"></i> Seus Dados</h3>
         <input id="nome" placeholder="Seu nome">
         <input id="peso" type="number" placeholder="Peso (kg)">
         <input id="altura" type="number" placeholder="Altura (cm)">
         <input id="idade" type="number" placeholder="Idade">
         <select id="sexo"><option value="m">Masculino</option><option value="f">Feminino</option></select>
         <select id="atv">
-            <option value="1.2">Sedentário</option>
-            <option value="1.375">Leve</option>
-            <option value="1.55">Moderado</option>
-            <option value="1.725">Intenso</option>
+            <option value="1.2">Sedentário (Pouco esforço)</option>
+            <option value="1.375">Leve (1-2 dias/semana)</option>
+            <option value="1.55">Moderado (3-5 dias/semana)</option>
+            <option value="1.725">Intenso (Treino diário)</option>
         </select>
         <select id="obj">
             <option value="perder">Emagrecer</option>
-            <option value="manter">Manter</option>
-            <option value="ganhar">Ganhar Massa</option>
+            <option value="manter">Manter Forma</option>
+            <option value="ganhar">Ganhar Massa (Hipertrofia)</option>
         </select>
-        <select id="local"><option value="casa">Treinar em Casa</option><option value="academia">Academia</option></select>
+        <select id="local"><option value="casa">Treinar em Casa</option><option value="academia">Ir para Academia</option></select>
         <button class="btn btn-primary" onclick="salvar()">Gerar Plano Completo</button>
     </div>
 </div>
@@ -72,36 +66,42 @@
         <h3>Evolução de Peso</h3>
         <div id="chart"></div>
         <div style="display:flex; gap:10px; margin-top:10px">
-            <input id="novo-peso" type="number" placeholder="Novo peso" style="flex:2">
-            <button class="btn btn-primary" onclick="atualizarPeso()" style="margin:0; flex:1">Ok</button>
+            <input id="novo-peso" type="number" placeholder="Peso atual" style="flex:2">
+            <button class="btn btn-primary" onclick="atualizarPeso()" style="margin:0; flex:1">Salvar</button>
         </div>
+    </div>
+    <div class="card" style="text-align:center">
+        <h3 style="justify-content:center">Meta Diária</h3>
+        <p id="kcal-meta-txt" style="font-size:1.5rem; font-weight:bold; color:var(--p)">--</p>
     </div>
 </div>
 
 <div id="treino_screen" class="screen">
-    <header><h1 id="treino-titulo">Treino</h1></header>
+    <header><h1 id="treino-titulo">Treino do Dia</h1></header>
     <div class="card" style="text-align:center">
-        <h2 id="foco-muscular">A</h2>
-        <button class="btn btn-primary" onclick="startTimer()">Intervalo (45s)</button>
-        <div id="timer-display" style="margin-top:10px; color:var(--a)">00:45</div>
+        <span id="badge-treino" style="background:var(--a); padding:2px 10px; border-radius:10px; font-size:0.8rem">A</span>
+        <h2 id="foco-muscular" style="margin:5px 0">Carregando...</h2>
+        <div id="timer-display" style="font-size:1.5rem; color:var(--a); font-weight:bold">00:45</div>
+        <button class="btn btn-sec" onclick="startTimer()">Intervalo de Descanso</button>
     </div>
     <div id="container-exercicios"></div>
 </div>
 
 <div id="dieta_screen" class="screen">
-    <header><h1>🥗 Dieta & Medidas</h1></header>
+    <header><h1>Dieta & Medidas</h1></header>
     <div id="container-dieta"></div>
 </div>
 
 <div id="compras_screen" class="screen">
-    <header><h1>🛒 Lista de Compras</h1></header>
+    <header><h1>Lista de Mercado</h1></header>
     <div class="card">
+        <h3><i class="fas fa-shopping-cart"></i> Planejamento</h3>
         <table>
             <thead>
                 <tr>
                     <th>Item</th>
-                    <th>1 Semana</th>
-                    <th>1 Mês</th>
+                    <th>7 Dias</th>
+                    <th>30 Dias</th>
                 </tr>
             </thead>
             <tbody id="lista-compras-corpo"></tbody>
@@ -110,98 +110,35 @@
 </div>
 
 <nav class="nav" id="menu" style="display:none">
-    <a onclick="show('home')" id="n-home"><i class="fas fa-chart-line"></i>Progresso</a>
+    <a onclick="show('home')" id="n-home"><i class="fas fa-home"></i>Início</a>
     <a onclick="show('treino_screen')" id="n-treino"><i class="fas fa-dumbbell"></i>Treino</a>
     <a onclick="show('dieta_screen')" id="n-dieta"><i class="fas fa-utensils"></i>Dieta</a>
-    <a onclick="show('compras_screen')" id="n-compras"><i class="fas fa-shopping-cart"></i>Compras</a>
+    <a onclick="show('compras_screen')" id="n-compras"><i class="fas fa-shopping-basket"></i>Compras</a>
 </nav>
 
 <script>
 let u = { historico: [], treinoAtual: 'A' };
 
-// Conversor de gramas para medidas caseiras (aprox)
-const medir = (tipo, gramas) => {
-    if (tipo === 'arroz') return `${Math.round(gramas/35)} col. servir`;
-    if (tipo === 'frango' || tipo === 'carne') return `${Math.round(gramas/100)} palma(s) da mão`;
-    if (tipo === 'aveia') return `${Math.round(gramas/15)} col. sopa`;
-    if (tipo === 'batata') return `${Math.round(gramas/100)} batata média`;
-    if (tipo === 'pao') return `${Math.round(gramas/25)} fatia(s)`;
-    return "";
+const medCaseira = (item, g) => {
+    if (item === 'Arroz') return `${Math.ceil(g/35)} colheres de servir`;
+    if (item === 'Frango' || item === 'Carne') return `${Math.round(g/100)} palma(s) da mão`;
+    if (item === 'Batata') return `${Math.ceil(g/100)} batata média`;
+    if (item === 'Pão') return `${Math.round(g/25)} fatias`;
+    return "unidade padrão";
 };
 
-function gerarDieta() {
-    const p = u.peso;
-    const prot = Math.round(p * (u.obj === 'ganhar' ? 2.2 : 2.0));
-    const carb = Math.round(((u.kcalMeta * 0.45) / 4));
-    
-    const dItems = [
-        { nome: "Arroz", g: Math.round(carb*0.4), tipo: 'arroz' },
-        { nome: "Frango", g: Math.round(prot*0.4), tipo: 'frango' },
-        { nome: "Batata", g: Math.round(carb*0.3), tipo: 'batata' },
-        { nome: "Carne", g: Math.round(prot*0.3), tipo: 'carne' }
-    ];
-
-    document.getElementById('container-dieta').innerHTML = `
-        <div class="card">
-            <h3>🍳 Café da Manhã</h3>
-            <div class="item-row"><span>Ovos</span><span class="qtd">${u.obj==='ganhar'?'4 un':'2 un'}</span></div>
-            <div class="item-row"><span>Pão Integral</span><span class="qtd">2 fatias</span></div>
-        </div>
-        <div class="card">
-            <h3>🍱 Almoço</h3>
-            <div class="item-row"><span>Arroz</span><span class="qtd">${dItems[0].g}g <small class="medida-alt">${medir('arroz', dItems[0].g)}</small></span></div>
-            <div class="item-row"><span>Frango</span><span class="qtd">${dItems[1].g}g <small class="medida-alt">${medir('frango', dItems[1].g)}</small></span></div>
-        </div>
-        <div class="card">
-            <h3>🍽️ Jantar</h3>
-            <div class="item-row"><span>Batata</span><span class="qtd">${dItems[2].g}g <small class="medida-alt">${medir('batata', dItems[2].g)}</small></span></div>
-            <div class="item-row"><span>Carne</span><span class="qtd">${dItems[3].g}g <small class="medida-alt">${medir('carne', dItems[3].g)}</small></span></div>
-        </div>
-    `;
-
-    gerarCompras(dItems, prot);
-}
-
-function gerarCompras(dItems, prot) {
-    const ovosDia = u.obj === 'ganhar' ? 4 : 2;
-    const compras = [
-        { n: "Peito de Frango", s: (dItems[1].g * 7 / 1000).toFixed(1) + "kg", m: (dItems[1].g * 30 / 1000).toFixed(1) + "kg" },
-        { n: "Carne Bovina", s: (dItems[3].g * 7 / 1000).toFixed(1) + "kg", m: (dItems[3].g * 30 / 1000).toFixed(1) + "kg" },
-        { n: "Arroz (Cru)", s: (dItems[0].g * 7 * 0.4 / 1000).toFixed(1) + "kg", m: (dItems[0].g * 30 * 0.4 / 1000).toFixed(1) + "kg" },
-        { n: "Batata Doce", s: (dItems[2].g * 7 / 1000).toFixed(1) + "kg", m: (dItems[2].g * 30 / 1000).toFixed(1) + "kg" },
-        { n: "Ovos", s: (ovosDia * 7) + " un", m: (ovosDia * 30) + " un" }
-    ];
-
-    document.getElementById('lista-compras-corpo').innerHTML = compras.map(c => `
-        <tr>
-            <td>${c.n}</td>
-            <td class="qtd">${c.s}</td>
-            <td class="qtd">${c.m}</td>
-        </tr>
-    `).join('');
-}
-
-// Lógica de Treino (ABC)
 const DB_TREINO = {
     academia: {
-        A: {foco: "Peito/Ombro/Tríceps", ex: [["Supino", "4x10"], ["Elevação Lateral", "3x15"], ["Tríceps Corda", "4x12"]]},
-        B: {foco: "Costas/Bíceps", ex: [["Puxada Alta", "4x10"], ["Remada Baixa", "3x12"], ["Rosca Martelo", "3x10"]]},
-        C: {foco: "Pernas", ex: [["Agachamento", "4x10"], ["Leg Press", "3x15"], ["Panturrilha", "4x20"]]}
+        A: {foco: "Peito, Ombro e Tríceps", ex: [["Supino Reto", "4x10"], ["Elevação Lateral", "3x15"], ["Tríceps Corda", "4x12"]]},
+        B: {foco: "Costas e Bíceps", ex: [["Puxada Alta", "4x10"], ["Remada Baixa", "3x12"], ["Rosca Direta", "3x10"]]},
+        C: {foco: "Pernas Completo", ex: [["Agachamento", "4x10"], ["Leg Press", "3x15"], ["Extensora", "3x12"]]}
     },
     casa: {
-        A: {foco: "Superiores (Empurrar)", ex: [["Flexão", "4x Máximo"], ["Mergulho Banco", "3x15"], ["Plank", "3x 1min"]]},
-        B: {foco: "Costas e Core", ex: [["Superman", "3x15"], ["Abdominal Infra", "4x20"], ["Caminhada Urso", "3x 1min"]]},
-        C: {foco: "Inferiores", ex: [["Agachamento", "4x20"], ["Afundo", "3x12"], ["Elevação Pélvica", "3x20"]]}
+        A: {foco: "Membros Superiores", ex: [["Flexão", "4x Máximo"], ["Mergulho Sofá", "3x15"], ["Prancha", "3x 1min"]]},
+        B: {foco: "Costas e Core", ex: [["Superman", "3x15"], ["Abdominal Infra", "4x20"], ["Bicicleta", "3x 1min"]]},
+        C: {foco: "Membros Inferiores", ex: [["Agachamento", "4x20"], ["Afundo", "3x12"], ["Elevação Pélvica", "3x20"]]}
     }
 };
-
-function gerarTreino() {
-    const t = DB_TREINO[u.local][u.treinoAtual];
-    document.getElementById('foco-muscular').innerText = t.foco;
-    document.getElementById('container-exercicios').innerHTML = t.ex.map(e => `
-        <div class="card"><div class="item-row"><b>${e[0]}</b><span class="qtd">${e[1]}</span></div></div>
-    `).join('');
-}
 
 function salvar() {
     u.nome = document.getElementById('nome').value;
@@ -212,17 +149,75 @@ function salvar() {
     u.atv = parseFloat(document.getElementById('atv').value);
     u.obj = document.getElementById('obj').value;
     u.local = document.getElementById('local').value;
+    
+    if(!u.nome || !u.peso) return alert("Por favor, preencha o perfil.");
     u.historico.push(u.peso);
     
-    // TMB Mifflin-St Jeor
     const tmb = 10 * u.peso + 6.25 * u.alt - 5 * u.idade + (u.sexo === 'm' ? 5 : -161);
     const gdc = tmb * u.atv;
-    u.kcalMeta = Math.round(u.obj === 'perder' ? gdc - 500 : (u.obj === 'ganhar' ? gdc + 300 : gdc));
+    u.kcalMeta = Math.round(u.obj === 'perder' ? gdc - 450 : (u.obj === 'ganhar' ? gdc + 300 : gdc));
 
     document.getElementById('menu').style.display = 'flex';
+    document.getElementById('kcal-meta-txt').innerText = u.kcalMeta + " kcal";
+    
     gerarDieta();
     gerarTreino();
+    desenharGrafico();
     show('home');
+}
+
+function gerarDieta() {
+    const p = u.peso;
+    const prot = Math.round(p * (u.obj === 'ganhar' ? 2.1 : 1.9));
+    const carb = Math.round(((u.kcalMeta * 0.4) / 4));
+    
+    const refeicoes = [
+        { t: "Café da Manhã", itens: [{n:"Pão", g:50}, {n:"Ovos", g:2}] },
+        { t: "Almoço", itens: [{n:"Arroz", g:Math.round(carb*0.5)}, {n:"Frango", g:Math.round(prot*0.5)}] },
+        { t: "Jantar", itens: [{n:"Batata", g:Math.round(carb*0.4)}, {n:"Carne", g:Math.round(prot*0.4)}] }
+    ];
+
+    let html = '';
+    refeicoes.forEach(r => {
+        html += `<div class="card"><h3>${r.t}</h3>`;
+        r.itens.forEach(i => {
+            html += `
+            <div class="item-row">
+                <span>${i.n}</span>
+                <span class="qtd">${i.g}${i.n==='Ovos'?' un':'g'} <small class="medida-alt">${medCaseira(i.n, i.g)}</small></span>
+            </div>`;
+        });
+        html += `</div>`;
+    });
+    document.getElementById('container-dieta').innerHTML = html;
+    gerarCompras(refeicoes);
+}
+
+function gerarCompras(refs) {
+    const resumo = [
+        { n: "Frango (Peito)", d7: 1.5, d30: 6.0 },
+        { n: "Carne Bovina", d7: 1.2, d30: 5.0 },
+        { n: "Arroz Cru", d7: 1.0, d30: 4.0 },
+        { n: "Ovos", d7: "2 Dúzias", d30: "8 Dúzias" },
+        { n: "Batata Doce", d7: 1.5, d30: 6.0 }
+    ];
+
+    document.getElementById('lista-compras-corpo').innerHTML = resumo.map(r => `
+        <tr>
+            <td>${r.n}</td>
+            <td class="qtd">${r.d7}${typeof r.d7 === 'number'?'kg':''}</td>
+            <td class="qtd">${r.d30}${typeof r.d30 === 'number'?'kg':''}</td>
+        </tr>
+    `).join('');
+}
+
+function gerarTreino() {
+    const t = DB_TREINO[u.local][u.treinoAtual];
+    document.getElementById('badge-treino').innerText = "TREINO " + u.treinoAtual;
+    document.getElementById('foco-muscular').innerText = t.foco;
+    document.getElementById('container-exercicios').innerHTML = t.ex.map(e => `
+        <div class="card"><div class="item-row"><b>${e[0]}</b><span class="qtd">${e[1]}</span></div></div>
+    `).join('');
 }
 
 function atualizarPeso() {
@@ -246,11 +241,11 @@ function desenharGrafico() {
 
 function startTimer() {
     let t = 45;
-    const d = document.getElementById('timer-display');
+    const disp = document.getElementById('timer-display');
     const interval = setInterval(() => {
         t--;
-        d.innerText = `00:${t < 10 ? '0'+t : t}`;
-        if(t <= 0) { clearInterval(interval); d.innerText = "VAI!"; }
+        disp.innerText = `00:${t < 10 ? '0'+t : t}`;
+        if(t <= 0) { clearInterval(interval); disp.innerText = "VAI!"; }
     }, 1000);
 }
 
@@ -259,212 +254,6 @@ function show(id) {
     document.getElementById(id).classList.add('active');
     document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
     document.getElementById('n-'+id.split('_')[0]).classList.add('active');
-}
-</script>
-</body>
-</html>
-        :root{--p:#00D09C;--s:#1A1A2E;--a:#FF6B6B;--d:#16213E;--c:#0F3460;--t:#EAEAEA}
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-        body{background:var(--d);color:var(--t);min-height:100vh;padding-bottom:90px}
-        .screen{display:none;padding:20px}.screen.active{display:block}
-        header{background:linear-gradient(135deg,var(--s),var(--c));padding:15px;text-align:center;border-bottom:3px solid var(--p);position:sticky;top:0;z-index:100}
-        header h1{font-size:1.2rem;color:var(--p)}
-        .card{background:var(--c);border-radius:15px;padding:15px;margin-bottom:15px;box-shadow: 0 4px 6px rgba(0,0,0,0.1)}
-        .card h3{color:var(--p);margin-bottom:10px;font-size: 1.1rem; display: flex; align-items: center; gap: 8px}
-        .item-row{display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05)}
-        .qtd{color: var(--a); font-weight: bold}
-        .btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px;transition: 0.2s}
-        .btn:active{transform: scale(0.95)}
-        .btn-primary{background:var(--p);color:var(--d)}
-        .btn-sec{background:var(--s);color:var(--t);border:1px solid var(--p)}
-        input, select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:none;background:var(--s);color:var(--t)}
-        .nav{position:fixed;bottom:0;left:0;right:0;background:var(--s);display:flex;justify-content:space-around;padding:12px;z-index:100;border-top: 1px solid var(--c)}
-        .nav a{color:var(--t);text-align:center;font-size:0.7rem;text-decoration:none;opacity: 0.6; cursor: pointer}
-        .nav a.active{color:var(--p);opacity: 1}
-        .nav i{display:block;font-size:1.2rem;margin-bottom:3px}
-        #timer-display{font-size: 2rem; text-align: center; color: var(--a); font-weight: bold; margin: 10px 0}
-        .water-grid{display: flex; gap: 10px; overflow-x: auto; padding: 10px 0}
-        .glass{min-width: 50px; height: 60px; border: 2px solid var(--p); border-radius: 0 0 10px 10px; cursor: pointer; display: flex; align-items: flex-end; transition: 0.3s}
-        .glass.full{background: var(--p)}
-    </style>
-</head>
-<body>
-
-<div id="reg" class="screen active">
-    <header><h1>Configurar Perfil</h1></header>
-    <div class="card">
-        <h3><i class="fas fa-user"></i> Seus Dados</h3>
-        <input id="nome" placeholder="Seu nome">
-        <input id="peso" type="number" placeholder="Peso (kg)">
-        <select id="obj">
-            <option value="perder">Emagrecer</option>
-            <option value="manter">Manter</option>
-            <option value="ganhar">Ganhar Massa</option>
-        </select>
-        <button class="btn btn-primary" onclick="salvar()">Gerar Plano Pro</button>
-    </div>
-</div>
-
-<div id="home" class="screen">
-    <header><h1>Olá, <span id="u-nome"></span></h1></header>
-    <div class="card">
-        <h3><i class="fas fa-tint"></i> Hidratação (Meta: <span id="meta-agua"></span>ml)</h3>
-        <p>Toque no copo para registrar 250ml</p>
-        <div class="water-grid" id="water-grid"></div>
-        <p id="water-count">0 / 0 ml</p>
-    </div>
-    <div class="card">
-        <h3><i class="fas fa-calendar-check"></i> Missão do Dia</h3>
-        <p id="missao-txt">Beba 3L de água hoje!</p>
-    </div>
-</div>
-
-<div id="dieta_screen" class="screen">
-    <header><h1>🥗 Dieta Diária</h1></header>
-    <div id="container_dieta"></div>
-</div>
-
-<div id="compras_screen" class="screen">
-    <header><h1>🛒 Lista p/ 7 dias</h1></header>
-    <div class="card" id="lista_compras"></div>
-    <p style="font-size: 0.8rem; text-align: center; opacity: 0.6">Valores calculados para uma semana completa.</p>
-</div>
-
-<div id="treino_screen" class="screen">
-    <header><h1>💪 Treino & Descanso</h1></header>
-    <div class="card">
-        <h3><i class="fas fa-stopwatch"></i> Cronômetro de Descanso</h3>
-        <div id="timer-display">00:45</div>
-        <button class="btn btn-sec" onclick="startTimer()">Iniciar 45s</button>
-    </div>
-    <div id="container_treino"></div>
-</div>
-
-<nav class="nav" id="menu" style="display:none">
-    <a onclick="show('home')" id="n-home"><i class="fas fa-home"></i>Home</a>
-    <a onclick="show('dieta_screen')" id="n-dieta"><i class="fas fa-utensils"></i>Dieta</a>
-    <a onclick="show('compras_screen')" id="n-compras"><i class="fas fa-shopping-cart"></i>Compras</a>
-    <a onclick="show('treino_screen')" id="n-treino"><i class="fas fa-dumbbell"></i>Treino</a>
-</nav>
-
-<script>
-let user = { nome: "", peso: 0, obj: "", agua: 0 };
-let timerInterval;
-
-function show(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
-    document.getElementById('n-'+id.split('_')[0]).classList.add('active');
-}
-
-function salvar() {
-    user.nome = document.getElementById('nome').value;
-    user.peso = parseFloat(document.getElementById('peso').value);
-    user.obj = document.getElementById('obj').value;
-    if(!user.nome || !user.peso) return alert("Preencha tudo!");
-    
-    document.getElementById('u-nome').innerText = user.nome;
-    document.getElementById('menu').style.display = 'flex';
-    
-    configurarAgua();
-    gerarPlanos();
-    show('home');
-}
-
-// LÓGICA DE ÁGUA
-function configurarAgua() {
-    const meta = user.peso * 35; // 35ml por kg
-    document.getElementById('meta-agua').innerText = meta;
-    const grid = document.getElementById('water-grid');
-    grid.innerHTML = '';
-    const coposNecessarios = Math.ceil(meta / 250);
-    for(let i=0; i<coposNecessarios; i++) {
-        const glass = document.createElement('div');
-        glass.className = 'glass';
-        glass.onclick = function() {
-            this.classList.toggle('full');
-            atualizarAgua();
-        };
-        grid.appendChild(glass);
-    }
-}
-
-function atualizarAgua() {
-    const cheios = document.querySelectorAll('.glass.full').length;
-    document.getElementById('water-count').innerText = `${cheios * 250} / ${user.peso * 35} ml`;
-}
-
-// GERADOR DE DIETA E COMPRAS
-function gerarPlanos() {
-    const p = user.peso;
-    const obj = user.obj;
-    const mP = obj === 'ganhar' ? 2.2 : 1.8;
-    const mC = obj === 'ganhar' ? 4.5 : (obj === 'perder' ? 1.8 : 3.0);
-
-    const diario = {
-        frango: Math.round(p * mP * 0.6),
-        carne: Math.round(p * mP * 0.4),
-        arroz: Math.round(p * mC * 0.5),
-        batata: Math.round(p * mC * 0.4),
-        ovos: obj === 'ganhar' ? 4 : 2,
-        pao: obj === 'perder' ? 2 : 4
-    };
-
-    // Render Dieta
-    document.getElementById('container_dieta').innerHTML = `
-        <div class="card">
-            <h3>🍳 Café da Manhã</h3>
-            <div class="item-row"><span>Ovos</span><span class="qtd">${diario.ovos} un</span></div>
-            <div class="item-row"><span>Pão Integral</span><span class="qtd">${diario.pao} fatias</span></div>
-        </div>
-        <div class="card">
-            <h3>🍱 Almoço</h3>
-            <div class="item-row"><span>Arroz</span><span class="qtd">${diario.arroz}g</span></div>
-            <div class="item-row"><span>Frango Grelhado</span><span class="qtd">${diario.frango}g</span></div>
-        </div>
-        <div class="card">
-            <h3>🍽️ Jantar</h3>
-            <div class="item-row"><span>Batata Doce/Inglesa</span><span class="qtd">${diario.batata}g</span></div>
-            <div class="item-row"><span>Carne Bovina</span><span class="qtd">${diario.carne}g</span></div>
-        </div>
-    `;
-
-    // Render Compras (Diário * 7 dias)
-    document.getElementById('lista_compras').innerHTML = `
-        <h3><i class="fas fa-shopping-basket"></i> Compras da Semana</h3>
-        <div class="item-row"><span>Peito de Frango</span><span class="qtd">${((diario.frango * 7)/1000).toFixed(2)} kg</span></div>
-        <div class="item-row"><span>Carne Bovina</span><span class="qtd">${((diario.carne * 7)/1000).toFixed(2)} kg</span></div>
-        <div class="item-row"><span>Arroz (Cru)</span><span class="qtd">${((diario.arroz * 7 * 0.4)/1000).toFixed(2)} kg</span></div>
-        <div class="item-row"><span>Batata</span><span class="qtd">${((diario.batata * 7)/1000).toFixed(2)} kg</span></div>
-        <div class="item-row"><span>Ovos</span><span class="qtd">${diario.ovos * 7} un (3 dúzias)</span></div>
-        <div class="item-row"><span>Pão Integral</span><span class="qtd">${Math.ceil((diario.pao * 7)/18)} pacote(s)</span></div>
-    `;
-
-    // Treino Simples
-    document.getElementById('container_treino').innerHTML = `
-        <div class="card"><h3>Agachamento</h3><p>4 séries de 12 repetições</p></div>
-        <div class="card"><h3>Flexão</h3><p>3 séries até a falha</p></div>
-        <div class="card"><h3>Prancha</h3><p>3 séries de 1 minuto</p></div>
-    `;
-}
-
-// CRONÔMETRO
-function startTimer() {
-    clearInterval(timerInterval);
-    let time = 45;
-    const display = document.getElementById('timer-display');
-    timerInterval = setInterval(() => {
-        time--;
-        let mins = Math.floor(time / 60);
-        let secs = time % 60;
-        display.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        if(time <= 0) {
-            clearInterval(timerInterval);
-            display.innerText = "VAI!";
-            new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
-        }
-    }, 1000);
 }
 </script>
 </body>
