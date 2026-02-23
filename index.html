@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife Personal</title>
+    <title>FitLife Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -13,11 +13,11 @@
         .screen{display:none;padding:20px}.screen.active{display:block}
         header{background:linear-gradient(135deg,var(--s),var(--c));padding:15px;text-align:center;border-bottom:3px solid var(--p);position:sticky;top:0;z-index:100}
         header h1{font-size:1.2rem;color:var(--p)}
-        .card{background:var(--c);border-radius:15px;padding:15px;margin-bottom:15px}
-        .card h3{color:var(--p);margin-bottom:10px}
-        input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:2px solid var(--s);background:var(--s);color:var(--t);outline:none}
+        .card{background:var(--c);border-radius:15px;padding:15px;margin-bottom:15px;box-shadow: 0 4px 6px rgba(0,0,0,0.1)}
+        .card h3{color:var(--p);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+        .gramas{font-weight: bold; color: var(--a)}
+        .detalhe-ex{font-size: 0.8rem; color: #aaa; display: block; margin-top: 4px}
         .btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px;transition: 0.3s}
-        .btn:active{transform: scale(0.98)}
         .btn-primary{background:var(--p);color:var(--d)}
         .btn-sec{background:var(--s);color:var(--t);border:2px solid var(--p)}
         .nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--s);justify-content:space-around;padding:12px;z-index:100;border-top: 1px solid var(--c)}
@@ -27,14 +27,9 @@
         .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
         .stat{background:var(--s);padding:10px;border-radius:8px;text-align:center}
         .stat .n{font-size:1.3rem;font-weight:bold;color:var(--p)}
-        .stat .l{font-size:0.7rem;opacity:0.8}
-        .pts{background:linear-gradient(135deg,var(--a),#FF8E53);padding:15px;border-radius:12px;text-align:center;margin-bottom:15px;color: white}
-        .pts .n{font-size:2rem;font-weight:bold}
-        .notif{position:fixed;top:15px;right:15px;background:var(--p);color:var(--d);padding:12px 20px;border-radius:8px;font-weight:bold;transform:translateX(200%);z-index:200;transition: 0.5s ease-out;box-shadow: 0 4px 15px rgba(0,0,0,0.3)}
+        .pts{background:linear-gradient(135deg,var(--a),#FF8E53);padding:15px;border-radius:12px;text-align:center;margin-bottom:15px}
+        .notif{position:fixed;top:15px;right:15px;background:var(--p);color:var(--d);padding:12px 20px;border-radius:8px;font-weight:bold;transform:translateX(200%);z-index:200;transition: 0.5s}
         .notif.show{transform:translateX(0)}
-        #welcome{text-align:center;padding-top:60px}
-        .logo{font-size:4.5rem;margin-bottom: 10px}
-        #grafico{height:80px;display:flex;align-items:flex-end;gap:5px;margin-top:15px;background: rgba(0,0,0,0.1);padding: 5px;border-radius: 8px}
     </style>
 </head>
 <body>
@@ -42,319 +37,258 @@
 <div class="notif" id="notif">🎉 Conquista!</div>
 
 <div id="welcome" class="screen active">
-    <div class="logo">💪</div>
-    <h1>FitLife</h1>
-    <p style="opacity:0.8;margin-bottom:30px">Seu personal trainer<br>inteligente e personalizado!</p>
-    <button class="btn btn-primary" onclick="show('reg')">Começar Agora</button>
-    <button class="btn btn-sec" onclick="load()" style="margin-top:12px">Já tenho conta</button>
+    <div style="text-align:center; padding-top:100px">
+        <h1 style="font-size:3rem">💪 FitLife</h1>
+        <p>Seu Plano Inteligente</p>
+        <button class="btn btn-primary" onclick="show('reg')" style="margin-top:20px">Começar</button>
+        <button class="btn btn-sec" onclick="load()">Carregar Perfil</button>
+    </div>
 </div>
 
 <div id="reg" class="screen">
-    <header><h1>Criar Perfil</h1></header>
+    <header><h1>Configurar Perfil</h1></header>
     <div class="card">
-        <h3>📝 Seus Dados</h3>
         <input id="nome" placeholder="Seu nome">
-        <input id="idade" type="number" placeholder="Idade">
-        <input id="peso" type="number" placeholder="Peso atual (kg)">
+        <input id="peso" type="number" placeholder="Peso (kg)">
         <input id="altura" type="number" placeholder="Altura (cm)">
-        <select id="sexo"><option value="">Sexo</option><option value="m">Masculino</option><option value="f">Feminino</option></select>
+        <input id="idade" type="number" placeholder="Idade">
+        <select id="sexo"><option value="m">Masculino</option><option value="f">Feminino</option></select>
+        <select id="obj"><option value="perder">Perder Peso</option><option value="manter">Manter</option><option value="ganhar">Ganhar Massa</option></select>
+        <select id="treino_pref"><option value="casa">Treinar em Casa</option><option value="academia">Academia</option></select>
+        <button class="btn btn-primary" onclick="criar()">Gerar Plano Inteligente</button>
     </div>
-    <div class="card">
-        <h3>🎯 Objetivo & Atividade</h3>
-        <select id="obj"><option value="perder">Emagrecer</option><option value="manter">Manter Peso</option><option value="ganhar">Ganhar Massa</option></select>
-        <select id="ativ">
-            <option value="1.2">Sedentário (Pouco exercício)</option>
-            <option value="1.375">Leve (1-3 dias/semana)</option>
-            <option value="1.55">Moderado (3-5 dias/semana)</option>
-            <option value="1.725">Ativo (6-7 dias/semana)</option>
-        </select>
-    </div>
-    <div class="card">
-        <h3>🍽️ Estilo de Vida</h3>
-        <select id="dieta_pref"><option value="normal">Dieta Equilibrada</option><option value="lowcarb">Low Carb</option><option value="vegana">Vegana</option></select>
-        <select id="treino_pref"><option value="casa">Treinar em Casa</option><option value="academia">Ir para Academia</option></select>
-    </div>
-    <button class="btn btn-primary" onclick="criar()">Gerar Meu Plano</button>
 </div>
 
 <div id="home" class="screen">
-    <header><h1>Olá, <span id="userNameDisplay"></span>!</h1></header>
+    <header><h1>Painel de Controle</h1></header>
     <div class="pts">
-        <div>Total de Experiência</div>
-        <div class="n" id="pontos">0</div>
-        <div id="streak">🔥 0 dias seguidos</div>
+        <div id="streak">🔥 Streak: 1 dia</div>
+        <div style="font-size:2rem; font-weight:bold" id="pontos">0</div>
+        <div>Pontos de Experiência</div>
+    </div>
+    <div class="card">
+        <h3><i class="fas fa-bullseye"></i> Missão do Dia</h3>
+        <p id="missao_txt">Carregando...</p>
+        <button class="btn btn-primary" id="btn_missao" onclick="completarMissao()">Concluir (+30 pts)</button>
     </div>
     <div class="stats">
-        <div class="stat"><div class="n" id="kcal">0</div><div class="l">Kcal Meta</div></div>
-        <div class="stat"><div class="n" id="pesoA">0</div><div class="l">Peso Atual</div></div>
-        <div class="stat"><div class="n" id="dias">0</div><div class="l">Registros</div></div>
-        <div class="stat"><div class="n" id="conq">0</div><div class="l">Troféus</div></div>
-    </div>
-    <div class="card">
-        <h3>📈 Evolução de Peso</h3>
-        <input id="novoPeso" type="number" placeholder="Novo peso (kg)">
-        <button class="btn btn-sec" onclick="salvarPeso()">Atualizar Peso</button>
-        <div id="grafico"></div>
-    </div>
-    <div class="card">
-        <h3>🎯 Desafio Diário</h3>
-        <p id="desafio_txt" style="margin-bottom:10px">...</p>
-        <button class="btn btn-primary" id="btnDesafio" onclick="fazerDesafio()">Concluir Desafio (+30pts)</button>
+        <div class="stat"><div class="n" id="stat_peso">0</div><div class="l">Peso Atual</div></div>
+        <div class="stat"><div class="n" id="stat_kcal">0</div><div class="l">Meta Kcal</div></div>
     </div>
 </div>
 
 <div id="treino_screen" class="screen">
-    <header><h1>💪 Plano de Treino</h1></header>
-    <div class="card">
-        <h3 id="localTreino">Local</h3>
-        <div id="exercicios"></div>
-    </div>
-    <button class="btn btn-primary" onclick="finalizarTreino()">Finalizar Treino (+50pts)</button>
+    <header><h1 id="treino_titulo">Treino do Dia</h1></header>
+    <div id="lista_exercicios"></div>
+    <button class="btn btn-primary" id="btn_treino" onclick="finalizarTreino()">Finalizar Treino (+50 pts)</button>
 </div>
 
 <div id="dieta_screen" class="screen">
-    <header><h1>🥗 Plano Alimentar</h1></header>
-    <div class="card">
-        <h3>Meta: <span id="kcalDieta">0</span> kcal</h3>
-        <div class="stats">
-            <div class="stat"><div class="n" id="prot">0g</div><div class="l">Proteína</div></div>
-            <div class="stat"><div class="n" id="carb">0g</div><div class="l">Carboidratos</div></div>
-        </div>
-    </div>
-    <div id="refeicoes"></div>
-</div>
-
-<div id="compras_screen" class="screen">
-    <header><h1>🛒 Lista de Compras</h1></header>
-    <div class="card"><div id="lista"></div></div>
+    <header><h1>Sua Dieta</h1></header>
+    <div id="lista_dieta"></div>
 </div>
 
 <nav class="nav" id="nav">
-    <a onclick="show('home')" id="nav-home"><i class="fas fa-home"></i>Home</a>
-    <a onclick="show('treino_screen')" id="nav-treino"><i class="fas fa-dumbbell"></i>Treino</a>
-    <a onclick="show('dieta_screen')" id="nav-dieta"><i class="fas fa-utensils"></i>Dieta</a>
-    <a onclick="show('compras_screen')" id="nav-compras"><i class="fas fa-shopping-cart"></i>Lista</a>
+    <a onclick="show('home')"><i class="fas fa-home"></i>Home</a>
+    <a onclick="show('treino_screen')"><i class="fas fa-dumbbell"></i>Treino</a>
+    <a onclick="show('dieta_screen')"><i class="fas fa-utensils"></i>Dieta</a>
 </nav>
 
 <script>
-let user = {nome:'', pts:0, streak:0, pesoHistory:[], conq:[], desafioFeito:false, cal:2000};
-
-const listaDesafios = ['Beba 3L de água hoje', 'Caminhada de 20 min', 'Sem refrigerante hoje', 'Comer 2 frutas', 'Dormir antes das 23h', 'Fazer alongamento'];
-const excCasa = [['Agachamentos','3x15'],['Flexões','3x10'],['Prancha','3x30s'],['Polichinelos','3x30']];
-const excAcademia = [['Supino Reto','4x10'],['Leg Press 45','4x12'],['Puxada Frente','4x10'],['Rosca Direta','3x12']];
-const dietasData = {
-    normal: [['Café','Pão integral com ovos'],['Almoço','Arroz, feijão e frango'],['Jantar','Batata doce e patinho']],
-    lowcarb: [['Café','Omelete com queijo'],['Almoço','Frango grelhado e brócolis'],['Jantar','Salmão ou Atum com salada']],
-    vegana: [['Café','Bowl de frutas e aveia'],['Almoço','Arroz integral e lentilha'],['Jantar','Tofu grelhado com legumes']]
+// BANCO DE DADOS DE EXERCÍCIOS
+const dbTreinos = {
+    casa: {
+        A: [
+            {n: "Flexão de Braços", d: "3 séries de 12 repetições. Descanso: 45s", obs: "Mantenha o abdômen contraído."},
+            {n: "Tríceps no Sofá", d: "3 séries de 15 repetições. Descanso: 30s", obs: "Desça até formar 90 graus com o cotovelo."},
+            {n: "Polichinelos", d: "4 séries de 45 segundos. Descanso: 20s", obs: "Ritmo constante."}
+        ],
+        B: [
+            {n: "Agachamento Livre", d: "4 séries de 15 repetições. Descanso: 60s", obs: "Não tire os calcanhares do chão."},
+            {n: "Afundo Alternado", d: "3 séries de 12 repetições cada perna", obs: "Mantenha o tronco reto."},
+            {n: "Elevação Pélvica", d: "3 séries de 20 repetições", obs: "Esmague o glúteo no topo."}
+        ],
+        C: [
+            {n: "Burpees", d: "3 séries de 10 repetições. Descanso: 60s", obs: "Explosão máxima."},
+            {n: "Prancha Abdominal", d: "3 séries de 40 segundos", obs: "Corpo alinhado como uma tábua."},
+            {n: "Escalador (Mountain Climber)", d: "4 séries de 30 segundos", obs: "Puxe o joelho em direção ao peito."}
+        ]
+    },
+    academia: {
+        A: [
+            {n: "Supino Reto", d: "4 séries de 10 repetições. Descanso: 60s", obs: "Controle a descida."},
+            {n: "Desenvolvimento Halteres", d: "3 séries de 12 repetições", obs: "Foco nos ombros."},
+            {n: "Puxada na Frente", d: "4 séries de 10 repetições", obs: "Sinta as costas trabalharem."}
+        ],
+        B: [
+            {n: "Leg Press 45", d: "4 séries de 12 repetições. Descanso: 90s", obs: "Não estenda totalmente o joelho."},
+            {n: "Extensora", d: "3 séries de 15 repetições", obs: "Pausa de 2s no topo."},
+            {n: "Stiff", d: "3 séries de 12 repetições", obs: "Coluna sempre reta."}
+        ],
+        C: [
+            {n: "Esteira (Intervalado)", d: "20 minutos", obs: "1 min corrida / 1 min caminhada."},
+            {n: "Abdominal na Polia", d: "4 séries de 15 repetições", obs: "Carga moderada."},
+            {n: "Remada Curvada", d: "3 séries de 12 repetições", obs: "Puxe a barra no umbigo."}
+        ]
+    }
 };
-const comprasData = {
-    normal: ['Arroz','Feijão','Frango','Ovos','Alface','Pão Integral'],
-    lowcarb: ['Peito de Frango','Carne Moída','Ovos','Abacate','Brócolis','Azeite'],
-    vegana: ['Lentilha','Grão de Bico','Banana','Aveia','Tofu','Castanhas']
+
+const missoes = [
+    "Beber 3 litros de água hoje",
+    "Não comer açúcar refinado hoje",
+    "Fazer 15 minutos de alongamento",
+    "Caminhar 5.000 passos",
+    "Comer uma porção de vegetais no almoço e jantar",
+    "Subir escadas em vez de usar elevador"
+];
+
+let user = {
+    nome: "", pts: 0, streak: 1, lastDate: "", 
+    peso: 0, cal: 0, obj: "", pref: "casa",
+    missaoDia: "", missaoFeita: false,
+    treinoTipo: "A", treinoFeito: false
 };
 
 function show(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    
-    const nav = document.getElementById('nav');
-    nav.style.display = (id === 'welcome' || id === 'reg') ? 'none' : 'flex';
-    
-    // Atualiza classe ativa na navegação
-    document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
-    const activeNav = document.querySelector(`.nav a[onclick="show('${id}')"]`);
-    if(activeNav) activeNav.classList.add('active');
-
-    atualizarDashboard();
-}
-
-function notif(msg) {
-    const n = document.getElementById('notif');
-    n.textContent = msg;
-    n.classList.add('show');
-    setTimeout(() => n.classList.remove('show'), 3000);
+    document.getElementById('nav').style.display = (id==='home' || id==='treino_screen' || id==='dieta_screen') ? 'flex' : 'none';
+    if(id === 'home') atualizarHome();
 }
 
 function criar() {
-    const nome = document.getElementById('nome').value;
-    const peso = parseFloat(document.getElementById('peso').value);
-    const alt = parseFloat(document.getElementById('altura').value);
-    const idade = parseInt(document.getElementById('idade').value);
-    const sexo = document.getElementById('sexo').value;
+    user.nome = document.getElementById('nome').value;
+    user.peso = parseFloat(document.getElementById('peso').value);
+    user.pref = document.getElementById('treino_pref').value;
+    user.obj = document.getElementById('obj').value;
+    user.cal = user.obj === 'perder' ? 1800 : 2500;
+    user.lastDate = new Date().toLocaleDateString();
+    user.missaoDia = missoes[0];
     
-    if(!nome || !peso || !alt || !idade) {
-        alert('Por favor, preencha todos os dados básicos!');
-        return;
-    }
-
-    // Cálculo TMB (Mifflin-St Jeor)
-    let tmb = (10 * peso) + (6.25 * alt) - (5 * idade);
-    tmb = (sexo === 'm') ? tmb + 5 : tmb - 161;
-    
-    const fatorAtv = parseFloat(document.getElementById('ativ').value);
-    const objetivo = document.getElementById('obj').value;
-    
-    let calFinal = tmb * fatorAtv;
-    if(objetivo === 'perder') calFinal -= 500;
-    if(objetivo === 'ganhar') calFinal += 300;
-
-    user = {
-        nome: nome,
-        pesoHistory: [peso],
-        cal: Math.round(calFinal),
-        dieta: document.getElementById('dieta_pref').value,
-        treino: document.getElementById('treino_pref').value,
-        pts: 0,
-        streak: 1,
-        conq: [],
-        desafioFeito: false,
-        lastDesafio: new Date().toDateString()
-    };
-
     save();
-    gerarPlanos();
     show('home');
-    notif('Perfil criado com sucesso! 💪');
 }
 
-function save() {
-    localStorage.setItem('fitlife_data', JSON.stringify(user));
-}
+function save() { localStorage.setItem('fit_pro_data', JSON.stringify(user)); }
 
 function load() {
-    const saved = localStorage.getItem('fitlife_data');
-    if(saved) {
-        user = JSON.parse(saved);
-        gerarPlanos();
+    const data = localStorage.getItem('fit_pro_data');
+    if(data) {
+        user = JSON.parse(data);
+        verificarMudancaDeDia();
         show('home');
-    } else {
-        alert('Nenhum perfil encontrado. Crie um novo!');
-        show('reg');
     }
 }
 
-function salvarPeso() {
-    const p = parseFloat(document.getElementById('novoPeso').value);
-    if(p) {
-        user.pesoHistory.push(p);
-        user.pts += 20;
-        document.getElementById('novoPeso').value = '';
+function verificarMudancaDeDia() {
+    const hoje = new Date().toLocaleDateString();
+    if(user.lastDate !== hoje) {
+        // Lógica de Streak
+        const ontem = new Date(); ontem.setDate(ontem.getDate() - 1);
+        if(user.lastDate === ontem.toLocaleDateString()) {
+            user.streak++;
+        } else {
+            user.streak = 1;
+        }
+
+        // Alternar Missão
+        user.missaoDia = missoes[Math.floor(Math.random() * missoes.length)];
+        user.missaoFeita = false;
+
+        // Alternar Treino (A -> B -> C -> A)
+        const ciclos = ["A", "B", "C"];
+        let idx = ciclos.indexOf(user.treinoTipo);
+        user.treinoTipo = ciclos[(idx + 1) % 3];
+        user.treinoFeito = false;
+
+        user.lastDate = hoje;
         save();
-        atualizarDashboard();
-        notif('+20 pts por registrar o peso!');
-        verificarConquistas();
     }
 }
 
-function gerarPlanos() {
-    // Treino
-    const ex = user.treino === 'casa' ? excCasa : excAcademia;
-    document.getElementById('localTreino').innerText = user.treino === 'casa' ? '🏠 Treino em Casa' : '🏋️ Treino de Academia';
-    document.getElementById('exercicios').innerHTML = ex.map(e => `
-        <div style="background:var(--s);padding:12px;margin:8px 0;border-radius:8px;display:flex;justify-content:space-between;align-items:center">
-            <span style="font-weight:600">${e[0]}</span>
-            <span style="color:var(--p);font-weight:bold;background:var(--d);padding:4px 8px;border-radius:5px">${e[1]}</span>
-        </div>
-    `).join('');
-
-    // Dieta
-    document.getElementById('kcalDieta').innerText = user.cal;
-    document.getElementById('prot').innerText = Math.round(user.pesoHistory[user.pesoHistory.length-1] * 2) + 'g';
-    document.getElementById('carb').innerText = Math.round((user.cal * 0.45) / 4) + 'g';
+function atualizarHome() {
+    document.getElementById('pontos').innerText = user.pts;
+    document.getElementById('streak').innerText = `🔥 Streak: ${user.streak} dias`;
+    document.getElementById('stat_peso').innerText = user.peso + "kg";
+    document.getElementById('stat_kcal').innerText = user.cal;
+    document.getElementById('missao_txt').innerText = user.missaoDia;
     
-    const r = dietasData[user.dieta];
-    document.getElementById('refeicoes').innerHTML = r.map(x => `
-        <div class="card" style="margin-bottom:10px">
-            <h4 style="color:var(--p)">${x[0]}</h4>
-            <p>${x[1]}</p>
+    const btnM = document.getElementById('btn_missao');
+    if(user.missaoFeita) {
+        btnM.innerText = "Concluída!";
+        btnM.disabled = true;
+        btnM.style.opacity = "0.5";
+    }
+
+    gerarTreino();
+    gerarDieta();
+}
+
+function gerarTreino() {
+    const lista = document.getElementById('lista_exercicios');
+    const treinoAtual = dbTreinos[user.pref][user.treinoTipo];
+    document.getElementById('treino_titulo').innerText = `Treino ${user.treinoTipo} (${user.pref})`;
+    
+    lista.innerHTML = treinoAtual.map(ex => `
+        <div class="card">
+            <h3>${ex.n}</h3>
+            <p><b>${ex.d}</b></p>
+            <span class="detalhe-ex">${ex.obs}</span>
         </div>
     `).join('');
 
-    // Compras
-    document.getElementById('lista').innerHTML = comprasData[user.dieta].map(i => `
-        <div style="background:var(--s);padding:12px;margin:5px 0;border-radius:8px;border-left:4px solid var(--p)">
-            <input type="checkbox" style="width:20px;margin-right:10px"> ${i}
-        </div>
-    `).join('');
-
-    // Desafio
-    if(!user.desafioTxt) gerarNovoDesafio();
-    document.getElementById('desafio_txt').innerText = user.desafioTxt;
-}
-
-function gerarNovoDesafio() {
-    user.desafioTxt = listaDesafios[Math.floor(Math.random() * listaDesafios.length)];
-    user.desafioFeito = false;
-}
-
-function fazerDesafio() {
-    if(!user.desafioFeito) {
-        user.pts += 30;
-        user.desafioFeito = true;
-        save();
-        atualizarDashboard();
-        notif('Desafio concluído! +30 pts');
-        document.getElementById('btnDesafio').disabled = true;
-        document.getElementById('btnDesafio').innerText = "Concluído de Hoje";
+    if(user.treinoFeito) {
+        document.getElementById('btn_treino').innerText = "Treino Concluído!";
+        document.getElementById('btn_treino').disabled = true;
     }
 }
 
 function finalizarTreino() {
-    user.pts += 50;
+    if(!user.treinoFeito) {
+        user.pts += 50;
+        user.treinoFeito = true;
+        save();
+        notif("+50 pontos! Bom trabalho!");
+        show('home');
+    }
+}
+
+function completarMissao() {
+    user.pts += 30;
+    user.missaoFeita = true;
     save();
-    show('home');
-    notif('Treino finalizado! +50 pts 💪');
+    notif("+30 pontos! Missão cumprida.");
+    atualizarHome();
 }
 
-function atualizarDashboard() {
-    if(!user.nome) return;
-    
-    document.getElementById('userNameDisplay').innerText = user.nome;
-    document.getElementById('pontos').innerText = user.pts;
-    document.getElementById('kcal').innerText = user.cal;
-    document.getElementById('pesoA').innerText = user.pesoHistory[user.pesoHistory.length-1] + 'kg';
-    document.getElementById('dias').innerText = user.pesoHistory.length;
-    document.getElementById('conq').innerText = user.conq.length;
-    document.getElementById('streak').innerText = '🔥 ' + user.streak + ' dias seguidos';
-    
-    if(user.desafioFeito) {
-        document.getElementById('btnDesafio').disabled = true;
-        document.getElementById('btnDesafio').innerText = "Concluído de Hoje";
-    }
-
-    // Gráfico Simples
-    const graf = document.getElementById('grafico');
-    if(user.pesoHistory.length > 0) {
-        const min = Math.min(...user.pesoHistory) - 1;
-        const max = Math.max(...user.pesoHistory) + 1;
-        const range = max - min || 1;
-        
-        graf.innerHTML = user.pesoHistory.map(p => {
-            const height = ((p - min) / range) * 60 + 10;
-            return `<div style="flex:1;background:var(--p);height:${height}px;border-radius:3px 3px 0 0;position:relative" title="${p}kg"></div>`;
-        }).join('');
-    }
+function gerarDieta() {
+    const d = document.getElementById('lista_dieta');
+    const prot = user.peso * 2;
+    d.innerHTML = `
+        <div class="card">
+            <h3>Resumo de Macros</h3>
+            <p>Proteína: <span class="gramas">${prot}g</span></p>
+            <p>Meta Diária: <span class="gramas">${user.cal} kcal</span></p>
+        </div>
+        <div class="card">
+            <h3>Café da Manhã</h3>
+            <p>Ovos mexidos (3 un) + 1 fruta</p>
+        </div>
+        <div class="card">
+            <h3>Almoço</h3>
+            <p>Carne grelhada (${user.peso * 1.5}g) + Arroz (${user.peso * 2}g)</p>
+        </div>
+    `;
 }
 
-function verificarConquistas() {
-    let mudou = false;
-    if(user.pts >= 100 && !user.conq.includes('iniciante')) {
-        user.conq.push('iniciante');
-        notif('🌟 Bronze: 100 Pontos alcançados!');
-        mudou = true;
-    }
-    if(user.pesoHistory.length >= 3 && !user.conq.includes('constante')) {
-        user.conq.push('constante');
-        notif('🔥 Prata: 3 registros de peso!');
-        mudou = true;
-    }
-    if(mudou) save();
+function notif(m) {
+    const n = document.getElementById('notif');
+    n.innerText = m; n.classList.add('show');
+    setTimeout(() => n.classList.remove('show'), 3000);
 }
 
-// Inicialização
-if(localStorage.getItem('fitlife_data')) {
-    load();
-}
+// Iniciar
+load();
 </script>
 </body>
 </html>
