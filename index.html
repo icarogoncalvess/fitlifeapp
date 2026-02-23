@@ -1,164 +1,360 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FitLife Personal</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root{--p:#00D09C;--s:#1A1A2E;--a:#FF6B6B;--d:#16213E;--c:#0F3460;--t:#EAEAEA}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-body{background:var(--d);color:var(--t);min-height:100vh;padding-bottom:70px}
-.screen{display:none;padding:20px}.screen.active{display:block}
-header{background:linear-gradient(135deg,var(--s),var(--c));padding:15px;text-align:center;border-bottom:3px solid var(--p);position:sticky;top:0;z-index:100}
-header h1{font-size:1.2rem;color:var(--p)}
-.card{background:var(--c);border-radius:15px;padding:15px;margin-bottom:15px}
-.card h3{color:var(--p);margin-bottom:10px}
-input,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:2px solid var(--s);background:var(--s);color:var(--t)}
-.btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px}
-.btn-primary{background:var(--p);color:var(--d)}
-.btn-sec{background:var(--s);color:var(--t);border:2px solid var(--p)}
-.nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--s);justify-content:space-around;padding:12px;z-index:100}
-.nav a{color:var(--t);text-align:center;font-size:0.7rem;opacity:0.6;text-decoration:none}
-.nav a.active{color:var(--p);opacity:1}
-.nav i{display:block;font-size:1.2rem;margin-bottom:2px}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.stat{background:var(--s);padding:10px;border-radius:8px;text-align:center}
-.stat .n{font-size:1.3rem;font-weight:bold;color:var(--p)}
-.stat .l{font-size:0.7rem;opacity:0.8}
-.pts{background:linear-gradient(135deg,var(--a),#FF8E53);padding:15px;border-radius:12px;text-align:center;margin-bottom:15px}
-.pts .n{font-size:2rem;font-weight:bold}
-.notif{position:fixed;top:15px;right:15px;background:var(--p);color:var(--d);padding:12px 20px;border-radius:8px;font-weight:bold;transform:translateX(200%);z-index:200}
-.notif.show{transform:translateX(0)}
-#welcome{text-align:center;padding-top:40px}
-.logo{font-size:3.5rem}
-h1{color:var(--p);margin-bottom:8px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife Personal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{--p:#00D09C;--s:#1A1A2E;--a:#FF6B6B;--d:#16213E;--c:#0F3460;--t:#EAEAEA}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+        body{background:var(--d);color:var(--t);min-height:100vh;padding-bottom:80px}
+        .screen{display:none;padding:20px}.screen.active{display:block}
+        header{background:linear-gradient(135deg,var(--s),var(--c));padding:15px;text-align:center;border-bottom:3px solid var(--p);position:sticky;top:0;z-index:100}
+        header h1{font-size:1.2rem;color:var(--p)}
+        .card{background:var(--c);border-radius:15px;padding:15px;margin-bottom:15px}
+        .card h3{color:var(--p);margin-bottom:10px}
+        input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:2px solid var(--s);background:var(--s);color:var(--t);outline:none}
+        .btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px;transition: 0.3s}
+        .btn:active{transform: scale(0.98)}
+        .btn-primary{background:var(--p);color:var(--d)}
+        .btn-sec{background:var(--s);color:var(--t);border:2px solid var(--p)}
+        .nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--s);justify-content:space-around;padding:12px;z-index:100;border-top: 1px solid var(--c)}
+        .nav a{color:var(--t);text-align:center;font-size:0.7rem;opacity:0.6;text-decoration:none;cursor:pointer}
+        .nav a.active{color:var(--p);opacity:1}
+        .nav i{display:block;font-size:1.2rem;margin-bottom:2px}
+        .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+        .stat{background:var(--s);padding:10px;border-radius:8px;text-align:center}
+        .stat .n{font-size:1.3rem;font-weight:bold;color:var(--p)}
+        .stat .l{font-size:0.7rem;opacity:0.8}
+        .pts{background:linear-gradient(135deg,var(--a),#FF8E53);padding:15px;border-radius:12px;text-align:center;margin-bottom:15px;color: white}
+        .pts .n{font-size:2rem;font-weight:bold}
+        .notif{position:fixed;top:15px;right:15px;background:var(--p);color:var(--d);padding:12px 20px;border-radius:8px;font-weight:bold;transform:translateX(200%);z-index:200;transition: 0.5s ease-out;box-shadow: 0 4px 15px rgba(0,0,0,0.3)}
+        .notif.show{transform:translateX(0)}
+        #welcome{text-align:center;padding-top:60px}
+        .logo{font-size:4.5rem;margin-bottom: 10px}
+        #grafico{height:80px;display:flex;align-items:flex-end;gap:5px;margin-top:15px;background: rgba(0,0,0,0.1);padding: 5px;border-radius: 8px}
+    </style>
 </head>
 <body>
 
 <div class="notif" id="notif">🎉 Conquista!</div>
 
-<!-- TELA BOAS VINDAS -->
 <div id="welcome" class="screen active">
-<div class="logo">💪</div>
-<h1>FitLife</h1>
-<p style="opacity:0.8;margin-bottom:20px">Seu personal trainer<br>personalizado!</p>
-<button class="btn btn-primary" onclick="show('reg')">Começar</button>
-<button class="btn btn-sec" onclick="load()" style="margin-top:8px">Já tenho conta</button>
+    <div class="logo">💪</div>
+    <h1>FitLife</h1>
+    <p style="opacity:0.8;margin-bottom:30px">Seu personal trainer<br>inteligente e personalizado!</p>
+    <button class="btn btn-primary" onclick="show('reg')">Começar Agora</button>
+    <button class="btn btn-sec" onclick="load()" style="margin-top:12px">Já tenho conta</button>
 </div>
 
-<!-- TELA CADASTRO -->
 <div id="reg" class="screen">
-<header><h1>Criar Perfil</h1></header>
-<div class="card">
-<h3>📝 Dados</h3>
-<input id="nome" placeholder="Nome">
-<input id="idade" type="number" placeholder="Idade">
-<input id="peso" type="number" placeholder="Peso (kg)">
-<input id="altura" type="number" placeholder="Altura (cm)">
-<select id="sexo"><option value="">Sexo</option><option value="m">Masculino</option><option value="f">Feminino</option></select>
-</div>
-<div class="card">
-<h3>🎯 Objetivo</h3>
-<select id="obj"><option value="perder">Emagrecer</option><option value="manter">Manter</option><option value="ganhar">Ganhar Massa</option></select>
-<select id="ativ"><option value="1.2">Sedentário</option><option value="1.375">Leve</option><option value="1.55">Moderado</option><option value="1.725">Ativo</option></select>
-</div>
-<div class="card">
-<h3>🍽️ Preferências</h3>
-<select id="dieta"><option value="normal">Normal</option><option value="lowcarb">Low Carb</option><option value="vegana">Vegana</option></select>
-<select id="treino"><option value="casa">Casa</option><option value="academia">Academia</option></select>
-</div>
-<button class="btn btn-primary" onclick="criar()">Criar Plano</button>
+    <header><h1>Criar Perfil</h1></header>
+    <div class="card">
+        <h3>📝 Seus Dados</h3>
+        <input id="nome" placeholder="Seu nome">
+        <input id="idade" type="number" placeholder="Idade">
+        <input id="peso" type="number" placeholder="Peso atual (kg)">
+        <input id="altura" type="number" placeholder="Altura (cm)">
+        <select id="sexo"><option value="">Sexo</option><option value="m">Masculino</option><option value="f">Feminino</option></select>
+    </div>
+    <div class="card">
+        <h3>🎯 Objetivo & Atividade</h3>
+        <select id="obj"><option value="perder">Emagrecer</option><option value="manter">Manter Peso</option><option value="ganhar">Ganhar Massa</option></select>
+        <select id="ativ">
+            <option value="1.2">Sedentário (Pouco exercício)</option>
+            <option value="1.375">Leve (1-3 dias/semana)</option>
+            <option value="1.55">Moderado (3-5 dias/semana)</option>
+            <option value="1.725">Ativo (6-7 dias/semana)</option>
+        </select>
+    </div>
+    <div class="card">
+        <h3>🍽️ Estilo de Vida</h3>
+        <select id="dieta_pref"><option value="normal">Dieta Equilibrada</option><option value="lowcarb">Low Carb</option><option value="vegana">Vegana</option></select>
+        <select id="treino_pref"><option value="casa">Treinar em Casa</option><option value="academia">Ir para Academia</option></select>
+    </div>
+    <button class="btn btn-primary" onclick="criar()">Gerar Meu Plano</button>
 </div>
 
-<!-- HOME -->
 <div id="home" class="screen">
-<header><h1>FitLife <span id="userName"></span></h1></header>
-<div class="pts">
-<div>Seus Pontos</div>
-<div class="n" id="pontos">0</div>
-<div id="streak">🔥 0 dias</div>
-</div>
-<div class="stats">
-<div class="stat"><div class="n" id="kcal">0</div><div class="l">Kcal/Dia</div></div>
-<div class="stat"><div class="n" id="pesoA">0</div><div class="l">kg</div></div>
-<div class="stat"><div class="n" id="dias">0</div><div class="l">Dias</div></div>
-<div class="stat"><div class="n" id="conq">0</div><div class="l">Troféus</div></div>
-</div>
-<div class="card">
-<h3>⚖️ Peso</h3>
-<input id="novoPeso" placeholder="Peso hoje (kg)">
-<button class="btn btn-sec" onclick="salvarPeso()">Registrar</button>
-<div id="grafico" style="height:60px;display:flex;align-items:flex-end;gap:3px;margin-top:10px"></div>
-</div>
-<div class="card">
-<h3>🎯 Desafio</h3>
-<p id="desafio" style="margin-bottom:10px">Carregando...</p>
-<button class="btn btn-sec" onclick="fazerDesafio()">Concluir (+30pts)</button>
-</div>
-</div>
-
-<!-- TREINO -->
-<div id="treino" class="screen">
-<header><h1>💪 Treino</h1></header>
-<div class="card">
-<h3 id="localTreino">Casa</h3>
-<div id="exercicios"></div>
-</div>
-<button class="btn btn-primary" onclick="finalizarTreino()">Finalizar (+50pts)</button>
+    <header><h1>Olá, <span id="userNameDisplay"></span>!</h1></header>
+    <div class="pts">
+        <div>Total de Experiência</div>
+        <div class="n" id="pontos">0</div>
+        <div id="streak">🔥 0 dias seguidos</div>
+    </div>
+    <div class="stats">
+        <div class="stat"><div class="n" id="kcal">0</div><div class="l">Kcal Meta</div></div>
+        <div class="stat"><div class="n" id="pesoA">0</div><div class="l">Peso Atual</div></div>
+        <div class="stat"><div class="n" id="dias">0</div><div class="l">Registros</div></div>
+        <div class="stat"><div class="n" id="conq">0</div><div class="l">Troféus</div></div>
+    </div>
+    <div class="card">
+        <h3>📈 Evolução de Peso</h3>
+        <input id="novoPeso" type="number" placeholder="Novo peso (kg)">
+        <button class="btn btn-sec" onclick="salvarPeso()">Atualizar Peso</button>
+        <div id="grafico"></div>
+    </div>
+    <div class="card">
+        <h3>🎯 Desafio Diário</h3>
+        <p id="desafio_txt" style="margin-bottom:10px">...</p>
+        <button class="btn btn-primary" id="btnDesafio" onclick="fazerDesafio()">Concluir Desafio (+30pts)</button>
+    </div>
 </div>
 
-<!-- DIETA -->
-<div id="dieta" class="screen">
-<header><h1>🥗 Dieta</h1></header>
-<div class="card">
-<h3>Meta: <span id="kcalDieta">0</span> kcal</h3>
-<div class="stats">
-<div class="stat"><div class="n" id="prot">0g</div><div class="l">Proteína</div></div>
-<div class="stat"><div class="n" id="carb">0g</div><div class="l">Carbos</div></div>
-</div>
-</div>
-<div id="refeicoes"></div>
+<div id="treino_screen" class="screen">
+    <header><h1>💪 Plano de Treino</h1></header>
+    <div class="card">
+        <h3 id="localTreino">Local</h3>
+        <div id="exercicios"></div>
+    </div>
+    <button class="btn btn-primary" onclick="finalizarTreino()">Finalizar Treino (+50pts)</button>
 </div>
 
-<!-- COMPRAS -->
-<div id="compras" class="screen">
-<header><h1>🛒 Compras</h1></header>
-<div class="card"><div id="lista"></div></div>
+<div id="dieta_screen" class="screen">
+    <header><h1>🥗 Plano Alimentar</h1></header>
+    <div class="card">
+        <h3>Meta: <span id="kcalDieta">0</span> kcal</h3>
+        <div class="stats">
+            <div class="stat"><div class="n" id="prot">0g</div><div class="l">Proteína</div></div>
+            <div class="stat"><div class="n" id="carb">0g</div><div class="l">Carboidratos</div></div>
+        </div>
+    </div>
+    <div id="refeicoes"></div>
 </div>
 
-<!-- NAV -->
+<div id="compras_screen" class="screen">
+    <header><h1>🛒 Lista de Compras</h1></header>
+    <div class="card"><div id="lista"></div></div>
+</div>
+
 <nav class="nav" id="nav">
-<a onclick="show('home')"><i class="fas fa-home"></i>Home</a>
-<a onclick="show('treino')"><i class="fas fa-dumbbell"></i>Treino</a>
-<a onclick="show('dieta')"><i class="fas fa-utensils"></i>Dieta</a>
-<a onclick="show('compras')"><i class="fas fa-shopping-cart"></i>Compras</a>
+    <a onclick="show('home')" id="nav-home"><i class="fas fa-home"></i>Home</a>
+    <a onclick="show('treino_screen')" id="nav-treino"><i class="fas fa-dumbbell"></i>Treino</a>
+    <a onclick="show('dieta_screen')" id="nav-dieta"><i class="fas fa-utensils"></i>Dieta</a>
+    <a onclick="show('compras_screen')" id="nav-compras"><i class="fas fa-shopping-cart"></i>Lista</a>
 </nav>
 
 <script>
-let data={nome:'',pts:0,streak:0,peso:[],conq:[],desafioFeito:false};
+let user = {nome:'', pts:0, streak:0, pesoHistory:[], conq:[], desafioFeito:false, cal:2000};
 
-const des=['Beba 2L água','Não coma açúcar','Exercício 30min','Coma vegetais','Durma 8h','5 refeições'];
-const excCasa=[['Agachamentos','3x15'],['Flexões','3x10'],['Prancha','3x30s'],['Burpees','3x10']];
-const excAcademia=[['Supino','4x10'],['Leg Press','4x12'],['Puxada','4x10'],['Rosca','3x12']];
-const diets={normal:[['Café','Pão + ovo'],['Almoço','Arroz + feijão + frango'],['Jantar','Batata + carne']],lowcarb:[['Café','Ovos + bacon'],['Almoço','Frango + brócolis'],['Jantar','Salada + atum']],vegana:[['Café','Aveia + frutas'],['Almoço','Arroz + lentilha'],['Jantar','Sopa']]};
-const buys={normal:['Arroz','Feijão','Frango','Ovos','Alface','Pão'],lowcarb:['Frango','Carne','Ovos','Abacate','Brócolis','Queijo'],vegana:['Arroz','Lentilha','Banana','Maçã','Aveia']};
+const listaDesafios = ['Beba 3L de água hoje', 'Caminhada de 20 min', 'Sem refrigerante hoje', 'Comer 2 frutas', 'Dormir antes das 23h', 'Fazer alongamento'];
+const excCasa = [['Agachamentos','3x15'],['Flexões','3x10'],['Prancha','3x30s'],['Polichinelos','3x30']];
+const excAcademia = [['Supino Reto','4x10'],['Leg Press 45','4x12'],['Puxada Frente','4x10'],['Rosca Direta','3x12']];
+const dietasData = {
+    normal: [['Café','Pão integral com ovos'],['Almoço','Arroz, feijão e frango'],['Jantar','Batata doce e patinho']],
+    lowcarb: [['Café','Omelete com queijo'],['Almoço','Frango grelhado e brócolis'],['Jantar','Salmão ou Atum com salada']],
+    vegana: [['Café','Bowl de frutas e aveia'],['Almoço','Arroz integral e lentilha'],['Jantar','Tofu grelhado com legumes']]
+};
+const comprasData = {
+    normal: ['Arroz','Feijão','Frango','Ovos','Alface','Pão Integral'],
+    lowcarb: ['Peito de Frango','Carne Moída','Ovos','Abacate','Brócolis','Azeite'],
+    vegana: ['Lentilha','Grão de Bico','Banana','Aveia','Tofu','Castanhas']
+};
 
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.getElementById('nav').style.display=id==='welcome'||id==='reg'?'none':'flex';if(id!=='welcome'&&id!=='reg')atualizar(id)}
-function notif(msg){const n=document.getElementById('notif');n.textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2000)}
-function criar(){const nome=document.getElementById('nome').value;const peso=parseFloat(document.getElementById('peso').value);const alt=parseFloat(document.getElementById('altura').value);const idade=parseInt(document.getElementById('idade').value);const sexo=document.getElementById('sexo').value;const obj=document.getElementById('obj').value;const atv=parseFloat(document.getElementById('ativ').value);const dieta=document.getElementById('dieta').value;const tre=document.getElementById('treino').value;if(!nome||!peso){alert('Preencha nome e peso!');return}let tmb=sexo==='m'?(10*peso)+(6.25*alt)-(5*idade)+5:(10*peso)+(6.25*alt)-(5*idade)-161;let cal=obj==='perder'?tmb*atv-500:obj==='ganhar'?tmb*atv+300:tmb*atv;data={nome,peso,cal,dieta,tre,pts:0,streak:0,peso:[peso],conq:[],desafioFeito:false,obj};localStorage.setItem('fitlife',JSON.stringify(data));document.getElementById('userName').innerText=nome;show('home');gerarDesafio();gerarTreino();gerarDieta();gerarCompras()}
-function load(){const d=localStorage.getItem('fitlife');if(d){data=JSON.parse(d);document.getElementById('userName').innerText=data.nome;show('home');gerarDesafio();gerarTreino();gerarDieta();gerarCompras()}else{alert('Nenhum dado encontrado!')}}
-function salvarPeso(){const p=parseFloat(document.getElementById('novoPeso').value);if(p){data.peso.push(p);data.pts+=10;localStorage.setItem('fitlife',JSON.stringify(data));atualizar('home');notif('+10 pts!');verConq()}}
-function gerarDesafio(){document.getElementById('desafio').innerText=des[Math.floor(Math.random()*des.length)]}
-function fazerDesafio(){if(!data.desafioFeito){data.pts+=30;data.desafioFeito=true;localStorage.setItem('fitlife',JSON.stringify(data));atualizar('home');notif('+30 pts!');verConq();gerarDesafio()}}
-function gerarTreino(){const ex=data.tre==='casa'?excCasa:excAcademia;document.getElementById('localTreino').innerText=data.tre==='casa'?'🏠 Casa':'🏋️ Academia';document.getElementById('exercicios').innerHTML=ex.map(e=>`<div style="background:var(--s);padding:10px;margin:5px 0;border-radius:8px;display:flex;justify-content:space-between"><span>${e[0]}</span><span style="color:var(--a)">${e[1]}</span></div>`).join('')}
-function gerarDieta(){document.getElementById('kcalDieta').innerText=data.cal;document.getElementById('prot').innerText=Math.round(data.peso[0]*2)+'g';document.getElementById('carb').innerText=Math.round((data.cal*0.5)/4)+'g';const r=diets[data.dieta];document.getElementById('refeicoes').innerHTML=r.map(x=>`<div class="card"><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join('')}
-function gerarCompras(){document.getElementById('lista').innerHTML=buys[data.dieta].map(i=>`<div style="background:var(--s);padding:10px;margin:5px 0;border-radius:8px">☐ ${i}</div>`).join('')}
-function finalizarTreino(){data.pts+=50;localStorage.setItem('fitlife',JSON.stringify(data));atualizar('home');notif('+50 pts! 💪');verConq()}
-function verConq(){const c=data.conq;if(data.pts>=100&&!c.includes('iniciante')){c.push('iniciante');notif('🌟 Conquista: Iniciante!')}if(data.peso.length>=3&&!c.includes('persistente')){c.push('persistente');notif('🔥 Conquista: Persistente!')}localStorage.setItem('fitlife',JSON.stringify(data))}
-function atualizar(){document.getElementById('pontos').innerText=data.pts;document.getElementById('kcal').innerText=data.cal;document.getElementById('pesoA').innerText=data.peso[data.peso.length-1];document.getElementById('dias').innerText=data.peso.length;document.getElementById('conq').innerText=data.conq.length;document.getElementById('streak').innerText='🔥 '+data.streak+' dias';if(data.peso.length>1){const max=Math.max(...data.peso),min=Math.min(...data.peso),h=Math.max(...data.peso.map(p=>100-((p-min)/(max-min))*80));document.getElementById('grafico').innerHTML=data.peso.map(p=>`<div style="flex:1;background:linear-gradient(to top,var(--p),var(--a));border-radius:3px;height:${h}px;min-height:5px" title="${p}kg"></div>`).join('')}}
+function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    
+    const nav = document.getElementById('nav');
+    nav.style.display = (id === 'welcome' || id === 'reg') ? 'none' : 'flex';
+    
+    // Atualiza classe ativa na navegação
+    document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+    const activeNav = document.querySelector(`.nav a[onclick="show('${id}')"]`);
+    if(activeNav) activeNav.classList.add('active');
+
+    atualizarDashboard();
+}
+
+function notif(msg) {
+    const n = document.getElementById('notif');
+    n.textContent = msg;
+    n.classList.add('show');
+    setTimeout(() => n.classList.remove('show'), 3000);
+}
+
+function criar() {
+    const nome = document.getElementById('nome').value;
+    const peso = parseFloat(document.getElementById('peso').value);
+    const alt = parseFloat(document.getElementById('altura').value);
+    const idade = parseInt(document.getElementById('idade').value);
+    const sexo = document.getElementById('sexo').value;
+    
+    if(!nome || !peso || !alt || !idade) {
+        alert('Por favor, preencha todos os dados básicos!');
+        return;
+    }
+
+    // Cálculo TMB (Mifflin-St Jeor)
+    let tmb = (10 * peso) + (6.25 * alt) - (5 * idade);
+    tmb = (sexo === 'm') ? tmb + 5 : tmb - 161;
+    
+    const fatorAtv = parseFloat(document.getElementById('ativ').value);
+    const objetivo = document.getElementById('obj').value;
+    
+    let calFinal = tmb * fatorAtv;
+    if(objetivo === 'perder') calFinal -= 500;
+    if(objetivo === 'ganhar') calFinal += 300;
+
+    user = {
+        nome: nome,
+        pesoHistory: [peso],
+        cal: Math.round(calFinal),
+        dieta: document.getElementById('dieta_pref').value,
+        treino: document.getElementById('treino_pref').value,
+        pts: 0,
+        streak: 1,
+        conq: [],
+        desafioFeito: false,
+        lastDesafio: new Date().toDateString()
+    };
+
+    save();
+    gerarPlanos();
+    show('home');
+    notif('Perfil criado com sucesso! 💪');
+}
+
+function save() {
+    localStorage.setItem('fitlife_data', JSON.stringify(user));
+}
+
+function load() {
+    const saved = localStorage.getItem('fitlife_data');
+    if(saved) {
+        user = JSON.parse(saved);
+        gerarPlanos();
+        show('home');
+    } else {
+        alert('Nenhum perfil encontrado. Crie um novo!');
+        show('reg');
+    }
+}
+
+function salvarPeso() {
+    const p = parseFloat(document.getElementById('novoPeso').value);
+    if(p) {
+        user.pesoHistory.push(p);
+        user.pts += 20;
+        document.getElementById('novoPeso').value = '';
+        save();
+        atualizarDashboard();
+        notif('+20 pts por registrar o peso!');
+        verificarConquistas();
+    }
+}
+
+function gerarPlanos() {
+    // Treino
+    const ex = user.treino === 'casa' ? excCasa : excAcademia;
+    document.getElementById('localTreino').innerText = user.treino === 'casa' ? '🏠 Treino em Casa' : '🏋️ Treino de Academia';
+    document.getElementById('exercicios').innerHTML = ex.map(e => `
+        <div style="background:var(--s);padding:12px;margin:8px 0;border-radius:8px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-weight:600">${e[0]}</span>
+            <span style="color:var(--p);font-weight:bold;background:var(--d);padding:4px 8px;border-radius:5px">${e[1]}</span>
+        </div>
+    `).join('');
+
+    // Dieta
+    document.getElementById('kcalDieta').innerText = user.cal;
+    document.getElementById('prot').innerText = Math.round(user.pesoHistory[user.pesoHistory.length-1] * 2) + 'g';
+    document.getElementById('carb').innerText = Math.round((user.cal * 0.45) / 4) + 'g';
+    
+    const r = dietasData[user.dieta];
+    document.getElementById('refeicoes').innerHTML = r.map(x => `
+        <div class="card" style="margin-bottom:10px">
+            <h4 style="color:var(--p)">${x[0]}</h4>
+            <p>${x[1]}</p>
+        </div>
+    `).join('');
+
+    // Compras
+    document.getElementById('lista').innerHTML = comprasData[user.dieta].map(i => `
+        <div style="background:var(--s);padding:12px;margin:5px 0;border-radius:8px;border-left:4px solid var(--p)">
+            <input type="checkbox" style="width:20px;margin-right:10px"> ${i}
+        </div>
+    `).join('');
+
+    // Desafio
+    if(!user.desafioTxt) gerarNovoDesafio();
+    document.getElementById('desafio_txt').innerText = user.desafioTxt;
+}
+
+function gerarNovoDesafio() {
+    user.desafioTxt = listaDesafios[Math.floor(Math.random() * listaDesafios.length)];
+    user.desafioFeito = false;
+}
+
+function fazerDesafio() {
+    if(!user.desafioFeito) {
+        user.pts += 30;
+        user.desafioFeito = true;
+        save();
+        atualizarDashboard();
+        notif('Desafio concluído! +30 pts');
+        document.getElementById('btnDesafio').disabled = true;
+        document.getElementById('btnDesafio').innerText = "Concluído de Hoje";
+    }
+}
+
+function finalizarTreino() {
+    user.pts += 50;
+    save();
+    show('home');
+    notif('Treino finalizado! +50 pts 💪');
+}
+
+function atualizarDashboard() {
+    if(!user.nome) return;
+    
+    document.getElementById('userNameDisplay').innerText = user.nome;
+    document.getElementById('pontos').innerText = user.pts;
+    document.getElementById('kcal').innerText = user.cal;
+    document.getElementById('pesoA').innerText = user.pesoHistory[user.pesoHistory.length-1] + 'kg';
+    document.getElementById('dias').innerText = user.pesoHistory.length;
+    document.getElementById('conq').innerText = user.conq.length;
+    document.getElementById('streak').innerText = '🔥 ' + user.streak + ' dias seguidos';
+    
+    if(user.desafioFeito) {
+        document.getElementById('btnDesafio').disabled = true;
+        document.getElementById('btnDesafio').innerText = "Concluído de Hoje";
+    }
+
+    // Gráfico Simples
+    const graf = document.getElementById('grafico');
+    if(user.pesoHistory.length > 0) {
+        const min = Math.min(...user.pesoHistory) - 1;
+        const max = Math.max(...user.pesoHistory) + 1;
+        const range = max - min || 1;
+        
+        graf.innerHTML = user.pesoHistory.map(p => {
+            const height = ((p - min) / range) * 60 + 10;
+            return `<div style="flex:1;background:var(--p);height:${height}px;border-radius:3px 3px 0 0;position:relative" title="${p}kg"></div>`;
+        }).join('');
+    }
+}
+
+function verificarConquistas() {
+    let mudou = false;
+    if(user.pts >= 100 && !user.conq.includes('iniciante')) {
+        user.conq.push('iniciante');
+        notif('🌟 Bronze: 100 Pontos alcançados!');
+        mudou = true;
+    }
+    if(user.pesoHistory.length >= 3 && !user.conq.includes('constante')) {
+        user.conq.push('constante');
+        notif('🔥 Prata: 3 registros de peso!');
+        mudou = true;
+    }
+    if(mudou) save();
+}
+
+// Inicialização
+if(localStorage.getItem('fitlife_data')) {
+    load();
+}
 </script>
 </body>
 </html>
