@@ -6,7 +6,263 @@
     <title>FitLife Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife Pro - Versão Completa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root{--p:#00D09C;--s:#1A1A2E;--a:#FF6B6B;--d:#16213E;--c:#0F3460;--t:#EAEAEA}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+        body{background:var(--d);color:var(--t);min-height:100vh;padding-bottom:90px}
+        .screen{display:none;padding:20px}.screen.active{display:block}
+        header{background:linear-gradient(135deg,var(--s),var(--c));padding:15px;text-align:center;border-bottom:3px solid var(--p);position:sticky;top:0;z-index:100}
+        header h1{font-size:1.2rem;color:var(--p)}
+        .card{background:var(--c);border-radius:15px;padding:15px;margin-bottom:15px;box-shadow: 0 4px 6px rgba(0,0,0,0.1)}
+        .card h3{color:var(--p);margin-bottom:10px;font-size: 1.1rem; display: flex; align-items: center; gap: 8px}
+        .item-row{display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center}
+        .qtd{color: var(--a); font-weight: bold; text-align: right}
+        .medida-alt{display: block; font-size: 0.75rem; color: #888; font-weight: normal}
+        .btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px}
+        .btn-primary{background:var(--p);color:var(--d)}
+        input, select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:none;background:var(--s);color:var(--t)}
+        .nav{position:fixed;bottom:0;left:0;right:0;background:var(--s);display:flex;justify-content:space-around;padding:12px;z-index:100;border-top: 1px solid var(--c)}
+        .nav a{color:var(--t);text-align:center;font-size:0.7rem;text-decoration:none;opacity: 0.6; cursor: pointer}
+        .nav a.active{color:var(--p);opacity: 1}
+        .nav i{display:block;font-size:1.2rem;margin-bottom:3px}
+        table{width: 100%; border-collapse: collapse; font-size: 0.8rem}
+        th{text-align: left; color: var(--p); padding-bottom: 8px}
+        td{padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05)}
+        #chart{display: flex; align-items: flex-end; gap: 4px; height: 100px; margin-top: 15px; background: #0b1426; padding: 5px; border-radius: 8px}
+        .bar{flex: 1; background: var(--p); border-radius: 2px 2px 0 0; position: relative}
+    </style>
+</head>
+<body>
+
+<div id="reg" class="screen active">
+    <header><h1>Configurar Perfil</h1></header>
+    <div class="card">
+        <input id="nome" placeholder="Seu nome">
+        <input id="peso" type="number" placeholder="Peso (kg)">
+        <input id="altura" type="number" placeholder="Altura (cm)">
+        <input id="idade" type="number" placeholder="Idade">
+        <select id="sexo"><option value="m">Masculino</option><option value="f">Feminino</option></select>
+        <select id="atv">
+            <option value="1.2">Sedentário</option>
+            <option value="1.375">Leve</option>
+            <option value="1.55">Moderado</option>
+            <option value="1.725">Intenso</option>
+        </select>
+        <select id="obj">
+            <option value="perder">Emagrecer</option>
+            <option value="manter">Manter</option>
+            <option value="ganhar">Ganhar Massa</option>
+        </select>
+        <select id="local"><option value="casa">Treinar em Casa</option><option value="academia">Academia</option></select>
+        <button class="btn btn-primary" onclick="salvar()">Gerar Plano Completo</button>
+    </div>
+</div>
+
+<div id="home" class="screen">
+    <header><h1>Dashboard</h1></header>
+    <div class="card">
+        <h3>Evolução de Peso</h3>
+        <div id="chart"></div>
+        <div style="display:flex; gap:10px; margin-top:10px">
+            <input id="novo-peso" type="number" placeholder="Novo peso" style="flex:2">
+            <button class="btn btn-primary" onclick="atualizarPeso()" style="margin:0; flex:1">Ok</button>
+        </div>
+    </div>
+</div>
+
+<div id="treino_screen" class="screen">
+    <header><h1 id="treino-titulo">Treino</h1></header>
+    <div class="card" style="text-align:center">
+        <h2 id="foco-muscular">A</h2>
+        <button class="btn btn-primary" onclick="startTimer()">Intervalo (45s)</button>
+        <div id="timer-display" style="margin-top:10px; color:var(--a)">00:45</div>
+    </div>
+    <div id="container-exercicios"></div>
+</div>
+
+<div id="dieta_screen" class="screen">
+    <header><h1>🥗 Dieta & Medidas</h1></header>
+    <div id="container-dieta"></div>
+</div>
+
+<div id="compras_screen" class="screen">
+    <header><h1>🛒 Lista de Compras</h1></header>
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>1 Semana</th>
+                    <th>1 Mês</th>
+                </tr>
+            </thead>
+            <tbody id="lista-compras-corpo"></tbody>
+        </table>
+    </div>
+</div>
+
+<nav class="nav" id="menu" style="display:none">
+    <a onclick="show('home')" id="n-home"><i class="fas fa-chart-line"></i>Progresso</a>
+    <a onclick="show('treino_screen')" id="n-treino"><i class="fas fa-dumbbell"></i>Treino</a>
+    <a onclick="show('dieta_screen')" id="n-dieta"><i class="fas fa-utensils"></i>Dieta</a>
+    <a onclick="show('compras_screen')" id="n-compras"><i class="fas fa-shopping-cart"></i>Compras</a>
+</nav>
+
+<script>
+let u = { historico: [], treinoAtual: 'A' };
+
+// Conversor de gramas para medidas caseiras (aprox)
+const medir = (tipo, gramas) => {
+    if (tipo === 'arroz') return `${Math.round(gramas/35)} col. servir`;
+    if (tipo === 'frango' || tipo === 'carne') return `${Math.round(gramas/100)} palma(s) da mão`;
+    if (tipo === 'aveia') return `${Math.round(gramas/15)} col. sopa`;
+    if (tipo === 'batata') return `${Math.round(gramas/100)} batata média`;
+    if (tipo === 'pao') return `${Math.round(gramas/25)} fatia(s)`;
+    return "";
+};
+
+function gerarDieta() {
+    const p = u.peso;
+    const prot = Math.round(p * (u.obj === 'ganhar' ? 2.2 : 2.0));
+    const carb = Math.round(((u.kcalMeta * 0.45) / 4));
+    
+    const dItems = [
+        { nome: "Arroz", g: Math.round(carb*0.4), tipo: 'arroz' },
+        { nome: "Frango", g: Math.round(prot*0.4), tipo: 'frango' },
+        { nome: "Batata", g: Math.round(carb*0.3), tipo: 'batata' },
+        { nome: "Carne", g: Math.round(prot*0.3), tipo: 'carne' }
+    ];
+
+    document.getElementById('container-dieta').innerHTML = `
+        <div class="card">
+            <h3>🍳 Café da Manhã</h3>
+            <div class="item-row"><span>Ovos</span><span class="qtd">${u.obj==='ganhar'?'4 un':'2 un'}</span></div>
+            <div class="item-row"><span>Pão Integral</span><span class="qtd">2 fatias</span></div>
+        </div>
+        <div class="card">
+            <h3>🍱 Almoço</h3>
+            <div class="item-row"><span>Arroz</span><span class="qtd">${dItems[0].g}g <small class="medida-alt">${medir('arroz', dItems[0].g)}</small></span></div>
+            <div class="item-row"><span>Frango</span><span class="qtd">${dItems[1].g}g <small class="medida-alt">${medir('frango', dItems[1].g)}</small></span></div>
+        </div>
+        <div class="card">
+            <h3>🍽️ Jantar</h3>
+            <div class="item-row"><span>Batata</span><span class="qtd">${dItems[2].g}g <small class="medida-alt">${medir('batata', dItems[2].g)}</small></span></div>
+            <div class="item-row"><span>Carne</span><span class="qtd">${dItems[3].g}g <small class="medida-alt">${medir('carne', dItems[3].g)}</small></span></div>
+        </div>
+    `;
+
+    gerarCompras(dItems, prot);
+}
+
+function gerarCompras(dItems, prot) {
+    const ovosDia = u.obj === 'ganhar' ? 4 : 2;
+    const compras = [
+        { n: "Peito de Frango", s: (dItems[1].g * 7 / 1000).toFixed(1) + "kg", m: (dItems[1].g * 30 / 1000).toFixed(1) + "kg" },
+        { n: "Carne Bovina", s: (dItems[3].g * 7 / 1000).toFixed(1) + "kg", m: (dItems[3].g * 30 / 1000).toFixed(1) + "kg" },
+        { n: "Arroz (Cru)", s: (dItems[0].g * 7 * 0.4 / 1000).toFixed(1) + "kg", m: (dItems[0].g * 30 * 0.4 / 1000).toFixed(1) + "kg" },
+        { n: "Batata Doce", s: (dItems[2].g * 7 / 1000).toFixed(1) + "kg", m: (dItems[2].g * 30 / 1000).toFixed(1) + "kg" },
+        { n: "Ovos", s: (ovosDia * 7) + " un", m: (ovosDia * 30) + " un" }
+    ];
+
+    document.getElementById('lista-compras-corpo').innerHTML = compras.map(c => `
+        <tr>
+            <td>${c.n}</td>
+            <td class="qtd">${c.s}</td>
+            <td class="qtd">${c.m}</td>
+        </tr>
+    `).join('');
+}
+
+// Lógica de Treino (ABC)
+const DB_TREINO = {
+    academia: {
+        A: {foco: "Peito/Ombro/Tríceps", ex: [["Supino", "4x10"], ["Elevação Lateral", "3x15"], ["Tríceps Corda", "4x12"]]},
+        B: {foco: "Costas/Bíceps", ex: [["Puxada Alta", "4x10"], ["Remada Baixa", "3x12"], ["Rosca Martelo", "3x10"]]},
+        C: {foco: "Pernas", ex: [["Agachamento", "4x10"], ["Leg Press", "3x15"], ["Panturrilha", "4x20"]]}
+    },
+    casa: {
+        A: {foco: "Superiores (Empurrar)", ex: [["Flexão", "4x Máximo"], ["Mergulho Banco", "3x15"], ["Plank", "3x 1min"]]},
+        B: {foco: "Costas e Core", ex: [["Superman", "3x15"], ["Abdominal Infra", "4x20"], ["Caminhada Urso", "3x 1min"]]},
+        C: {foco: "Inferiores", ex: [["Agachamento", "4x20"], ["Afundo", "3x12"], ["Elevação Pélvica", "3x20"]]}
+    }
+};
+
+function gerarTreino() {
+    const t = DB_TREINO[u.local][u.treinoAtual];
+    document.getElementById('foco-muscular').innerText = t.foco;
+    document.getElementById('container-exercicios').innerHTML = t.ex.map(e => `
+        <div class="card"><div class="item-row"><b>${e[0]}</b><span class="qtd">${e[1]}</span></div></div>
+    `).join('');
+}
+
+function salvar() {
+    u.nome = document.getElementById('nome').value;
+    u.peso = parseFloat(document.getElementById('peso').value);
+    u.alt = parseFloat(document.getElementById('altura').value);
+    u.idade = parseInt(document.getElementById('idade').value);
+    u.sexo = document.getElementById('sexo').value;
+    u.atv = parseFloat(document.getElementById('atv').value);
+    u.obj = document.getElementById('obj').value;
+    u.local = document.getElementById('local').value;
+    u.historico.push(u.peso);
+    
+    // TMB Mifflin-St Jeor
+    const tmb = 10 * u.peso + 6.25 * u.alt - 5 * u.idade + (u.sexo === 'm' ? 5 : -161);
+    const gdc = tmb * u.atv;
+    u.kcalMeta = Math.round(u.obj === 'perder' ? gdc - 500 : (u.obj === 'ganhar' ? gdc + 300 : gdc));
+
+    document.getElementById('menu').style.display = 'flex';
+    gerarDieta();
+    gerarTreino();
+    show('home');
+}
+
+function atualizarPeso() {
+    const np = parseFloat(document.getElementById('novo-peso').value);
+    if(np) {
+        u.historico.push(np);
+        u.peso = np;
+        const prox = {A:'B', B:'C', C:'A'};
+        u.treinoAtual = prox[u.treinoAtual];
+        desenharGrafico();
+        gerarDieta();
+        gerarTreino();
+        document.getElementById('novo-peso').value = '';
+    }
+}
+
+function desenharGrafico() {
+    const max = Math.max(...u.historico);
+    document.getElementById('chart').innerHTML = u.historico.map(p => `<div class="bar" style="height:${(p/max)*100}%"></div>`).join('');
+}
+
+function startTimer() {
+    let t = 45;
+    const d = document.getElementById('timer-display');
+    const interval = setInterval(() => {
+        t--;
+        d.innerText = `00:${t < 10 ? '0'+t : t}`;
+        if(t <= 0) { clearInterval(interval); d.innerText = "VAI!"; }
+    }, 1000);
+}
+
+function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById('n-'+id.split('_')[0]).classList.add('active');
+}
+</script>
+</body>
+</html>
         :root{--p:#00D09C;--s:#1A1A2E;--a:#FF6B6B;--d:#16213E;--c:#0F3460;--t:#EAEAEA}
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
         body{background:var(--d);color:var(--t);min-height:100vh;padding-bottom:90px}
