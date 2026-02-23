@@ -5,43 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitLife Personal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #00D09C;
             --secondary: #1A1A2E;
             --accent: #FF6B6B;
             --dark: #16213E;
-            --light: #F7F7F7;
             --card-bg: #0F3460;
             --text: #EAEAEA;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
         body {
             background: var(--dark);
             color: var(--text);
             min-height: 100vh;
-            overflow-x: hidden;
+            padding-bottom: 80px;
         }
 
         /* Telas */
-        .screen {
-            display: none;
-            padding: 20px;
-            padding-bottom: 80px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .screen.active {
-            display: block;
-        }
+        .screen { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
+        .screen.active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -59,10 +45,7 @@
             z-index: 100;
         }
 
-        header h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
+        header h1 { font-size: 1.3rem; color: var(--primary); }
 
         /* Cards */
         .card {
@@ -71,16 +54,9 @@
             padding: 20px;
             margin-bottom: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .card h3 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .card h3 { color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
 
         /* Inputs */
         input, select {
@@ -94,10 +70,7 @@
             font-size: 1rem;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
+        input:focus, select:focus { outline: none; border-color: var(--primary); }
 
         /* Buttons */
         .btn {
@@ -108,7 +81,7 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: 0.2s;
             margin-top: 10px;
         }
 
@@ -123,10 +96,7 @@
             border: 2px solid var(--primary);
         }
 
-        .btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(0, 208, 156, 0.3);
-        }
+        .btn:hover { transform: scale(1.02); }
 
         /* Navigation Bar */
         .nav-bar {
@@ -144,24 +114,34 @@
 
         .nav-item {
             color: var(--text);
-            text-decoration: none;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             opacity: 0.6;
             transition: 0.3s;
             cursor: pointer;
+            text-decoration: none;
         }
 
-        .nav-item.active {
-            color: var(--primary);
-            opacity: 1;
+        .nav-item.active { color: var(--primary); opacity: 1; }
+        .nav-item i { font-size: 1.3rem; display: block; margin-bottom: 3px; }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        .nav-item i {
-            font-size: 1.3rem;
-            display: block;
-            margin-bottom: 3px;
+        .stat-box {
+            background: var(--secondary);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
         }
+
+        .stat-box .number { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+        .stat-box .label { font-size: 0.75rem; opacity: 0.8; }
 
         /* Progress Bar */
         .progress-container {
@@ -179,52 +159,20 @@
             transition: width 0.5s ease;
         }
 
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .stat-box {
-            background: var(--secondary);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-box .number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .stat-box .label {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-
         /* Achievements */
         .achievement {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 10px;
+            padding: 12px;
             background: var(--secondary);
             border-radius: 10px;
             margin-bottom: 10px;
             opacity: 0.5;
         }
 
-        .achievement.unlocked {
-            opacity: 1;
-            border: 1px solid var(--primary);
-        }
-
-        .achievement i {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
+        .achievement.unlocked { opacity: 1; border: 1px solid var(--primary); }
+        .achievement i { font-size: 1.5rem; color: var(--primary); }
 
         /* Checklist */
         .checklist-item {
@@ -238,10 +186,7 @@
             cursor: pointer;
         }
 
-        .checklist-item.checked {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
+        .checklist-item.checked { opacity: 0.5; text-decoration: line-through; }
 
         .checkbox {
             width: 25px;
@@ -253,25 +198,22 @@
             justify-content: center;
         }
 
-        .checkbox.checked {
-            background: var(--primary);
-            color: var(--dark);
-        }
+        .checkbox.checked { background: var(--primary); color: var(--dark); }
 
-        /* Chart Container */
+        /* Chart */
         .chart-container {
-            height: 200px;
+            height: 150px;
             display: flex;
             align-items: flex-end;
-            gap: 10px;
-            padding: 20px 0;
+            gap: 8px;
+            padding: 10px 0;
         }
 
         .chart-bar {
             flex: 1;
             background: linear-gradient(to top, var(--primary), var(--accent));
             border-radius: 5px 5px 0 0;
-            min-height: 10px;
+            min-height: 5px;
             transition: height 0.3s ease;
             position: relative;
         }
@@ -279,14 +221,14 @@
         .chart-bar::after {
             content: attr(data-weight);
             position: absolute;
-            top: -25px;
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--primary);
         }
 
-        /* Points Display */
+        /* Points */
         .points-display {
             background: linear-gradient(135deg, var(--accent), #FF8E53);
             padding: 20px;
@@ -295,10 +237,8 @@
             margin-bottom: 20px;
         }
 
-        .points-display .points {
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
+        .points-display .points { font-size: 2.5rem; font-weight: bold; }
+        .points-display .label { font-size: 0.9rem; }
 
         /* Notification */
         .notification {
@@ -315,53 +255,81 @@
             z-index: 200;
         }
 
-        .notification.show {
-            transform: translateX(0);
-        }
+        .notification.show { transform: translateX(0); }
 
-        /* Welcome Screen */
-        #welcome-screen {
+        /* Welcome */
+        #welcome-screen { text-align: center; padding-top: 50px; }
+        .logo { font-size: 4rem; margin-bottom: 20px; }
+        .welcome-text { font-size: 1.1rem; margin-bottom: 30px; opacity: 0.8; }
+
+        /* Timer */
+        .timer-display {
             text-align: center;
-            padding-top: 40px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 20px 0;
         }
 
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 20px;
+        /* Lista compras */
+        .compra-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: var(--secondary);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
         }
 
-        .welcome-text {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.8;
+        .compra-item.comprado { opacity: 0.5; text-decoration: line-through; }
+
+        /* Treino checklist */
+        .treino-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--secondary);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .treino-item .exercicio { font-weight: 600; }
+        .treino-item .series { color: var(--accent); font-size: 0.9rem; }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            margin: 0;
         }
     </style>
 </head>
 <body>
 
     <!-- Notificação -->
-    <div class="notification" id="notification">
-        🎉 Conquista Desbloqueada!
-    </div>
+    <div class="notification" id="notification">🎉 Conquista!</div>
 
-    <!-- Tela Inicial -->
+    <!-- TELA 1: BOAS VINDAS -->
     <div id="welcome-screen" class="screen active">
         <div class="logo">💪</div>
-        <h1 style="color: var(--primary); font-size: 2rem; margin-bottom: 10px;">FitLife</h1>
-        <p class="welcome-text">Seu personal trainer e nutritionist<br>personalizado em um só app!</p>
+        <h1 style="color: var(--primary); font-size: 2.2rem; margin-bottom: 10px;">FitLife</h1>
+        <p class="welcome-text">Seu personal trainer<br>e nutritionist personalizado!</p>
         
         <div style="padding: 20px;">
             <button class="btn btn-primary" onclick="showScreen('register-screen')">
                 Começar Agora <i class="fas fa-arrow-right"></i>
             </button>
+            <button class="btn btn-secondary" onclick="carregarDadosExistentes()" style="margin-top: 10px;">
+                Já tenho conta
+            </button>
         </div>
     </div>
 
-    <!-- Tela de Cadastro -->
+    <!-- TELA 2: CADASTRO -->
     <div id="register-screen" class="screen">
-        <header>
-            <h1>Vamos personalizar para você!</h1>
-        </header>
+        <header><h1>Crie seu Perfil</h1></header>
         
         <div class="card">
             <h3><i class="fas fa-user"></i> Dados Pessoais</h3>
@@ -377,48 +345,46 @@
         </div>
 
         <div class="card">
-            <h3><i class="fas fa-bullseye"></i> Seu Objetivo</h3>
+            <h3><i class="fas fa-bullseye"></i> Objetivo</h3>
             <select id="objetivo">
                 <option value="perder">🔥 Emagrecer</option>
-                <option value="manter">⚖️ Manter Peso</option>
+                <option value="manter">⚖️ Manter</option>
                 <option value="ganhar">💪 Ganhar Massa</option>
             </select>
             <select id="atividade">
-                <option value="sedentario">Sedentário (pouco exercício)</option>
-                <option value="leve">Leve (1-3 dias/semana)</option>
-                <option value="moderado">Moderado (3-5 dias/semana)</option>
-                <option value="ativo">Ativo (6-7 dias/semana)</option>
+                <option value="sedentario">Sedentário</option>
+                <option value="leve">Leve (1-3x semana)</option>
+                <option value="moderado">Moderado (3-5x semana)</option>
+                <option value="ativo">Ativo (6-7x semana)</option>
             </select>
         </div>
 
         <div class="card">
             <h3><i class="fas fa-utensils"></i> Preferências</h3>
             <select id="estilo-dieta">
-                <option value="normal">🍽️ Normal (Balanceada)</option>
+                <option value="normal">🍽️ Normal</option>
                 <option value="lowcarb">🥑 Low Carb</option>
                 <option value="vegana">🥦 Vegana</option>
             </select>
             <select id="local-treino">
-                <option value="casa">🏠 Treinar em Casa</option>
-                <option value="academia">🏋️ Treinar na Academia</option>
+                <option value="casa">🏠 Casa</option>
+                <option value="academia">🏋️ Academia</option>
             </select>
         </div>
 
         <button class="btn btn-primary" onclick="criarPerfil()">
-            Criar Meu Plano Personalizado
+            Criar Meu Plano
         </button>
     </div>
 
-    <!-- Tela Home -->
+    <!-- TELA 3: HOME -->
     <div id="home-screen" class="screen">
-        <header>
-            <h1>FitLife Personal</h1>
-        </header>
+        <header><h1>FitLife <span id="nome-usuario"></span></h1></header>
 
         <div class="points-display">
             <div class="label">Seus Pontos</div>
             <div class="points" id="pontos-tela">0</div>
-            <div class="label" id="streak-dias">🔥 0 dias de sequência</div>
+            <div class="label" id="streak-dias">🔥 0 dias</div>
         </div>
 
         <div class="stats-grid">
@@ -427,57 +393,48 @@
                 <div class="label">Kcal/Dia</div>
             </div>
             <div class="stat-box">
-                <div class="number" id="dias-registrados">0</div>
-                <div class="label">Dias Seguidos</div>
+                <div class="number" id="peso-atual">0</div>
+                <div class="label">kg</div>
             </div>
             <div class="stat-box">
-                <div class="number" id="peso-atual">0</div>
-                <div class="label">Peso Atual</div>
+                <div class="number" id="dias-registrados">0</div>
+                <div class="label">Dias</div>
             </div>
             <div class="stat-box">
                 <div class="number" id="conquistas-qtd">0</div>
-                <div class="label">Conquistas</div>
+                <div class="label">Troféus</div>
             </div>
         </div>
 
         <div class="card">
             <h3>📊 Evolução do Peso</h3>
             <div class="chart-container" id="grafico-peso">
-                <!-- Gráfico gerado via JS -->
+                <div style="text-align:center; width:100%; opacity:0.5;">Sem dados ainda</div>
             </div>
-            <p style="text-align: center; opacity: 0.7; font-size: 0.8rem;">
-                Registre seu peso para ver o gráfico!
-            </p>
         </div>
 
         <div class="card">
             <h3>🎯 Desafio do Dia</h3>
-            <p id="desafio-do-dia">Carregando desafio...</p>
+            <p id="desafio-do-dia" style="margin-bottom: 15px;">Carregando...</p>
             <button class="btn btn-secondary" onclick="completarDesafio()">
                 Marcar como Concluído
             </button>
         </div>
     </div>
 
-    <!-- Tela Treino -->
+    <!-- TELA 4: TREINO -->
     <div id="treino-screen" class="screen">
-        <header>
-            <h1>💪 Treino de Hoje</h1>
-        </header>
+        <header><h1>💪 Treino de Hoje</h1></header>
 
         <div class="card">
             <h3><i class="fas fa-dumbbell"></i> <span id="treino-local">Casa</span></h3>
             <p style="margin-bottom: 15px; opacity: 0.8;">Duração: 45-60 min</p>
-            <div id="exercicios-lista">
-                <!-- Gerado via JS -->
-            </div>
+            <div id="exercicios-lista"></div>
         </div>
 
         <div class="card">
             <h3>⏱️ Cronômetro</h3>
-            <div style="text-align: center; font-size: 2rem; margin: 20px 0;" id="timer">
-                00:00
-            </div>
+            <div class="timer-display" id="timer">00:00</div>
             <div style="display: flex; gap: 10px;">
                 <button class="btn btn-secondary" onclick="iniciarTimer()">
                     <i class="fas fa-play"></i> Iniciar
@@ -489,17 +446,17 @@
         </div>
 
         <button class="btn btn-primary" onclick="finalizarTreino()">
-            ✅ Finalizar Treino (+50 pontos)
+            ✅ Finalizar Treino (+50 pts)
         </button>
     </div>
 
-    <!-- Tela Dieta -->
+    <!-- TELA 5: DIETA -->
     <div id="dieta-screen" class="screen">
-        <header>
-            <h1>🥗 Plano Alimentar</h1>
-        </header>
+        <header><h1>🥗 Plano Alimentar</h1></header>
 
         <div class="card">
-            <h3>Meta Diária</h3>
-            <div class="stats-grid">
-                <div
+            <h3>Meta Diária: <span id="meta-calorias-dieta">0</span> kcal</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-calorias" style="width: 0%"></div>
+            </div>
+            <p style="text-align: center; font-size: 0.9rem
